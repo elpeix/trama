@@ -1,0 +1,55 @@
+.error-screen {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  padding: 16px;
+  box-sizing: border-box;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.error-screen-panel {
+  width: 100%;
+  max-width: 560px;
+  padding: 24px;
+  box-sizing: border-box;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.error-screen-panel h1 {
+  margin: 0 0 12px;
+  font-size: 1.3rem;
+}
+
+.error-screen-panel p {
+  margin: 0 0 12px;
+  line-height: 1.5;
+}
+
+.error-screen-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.error-screen-actions a {
+  text-decoration: none;
+}
+
+.error-screen-alert {
+  color: var(--danger);
+}
+
+.error-screen-detail {
+  margin: 0;
+  padding: 8px 10px;
+  overflow-x: auto;
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--muted);
+  font-size: 0.8rem;
+  white-space: pre-wrap;
+}

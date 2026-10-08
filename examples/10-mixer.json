@@ -1,0 +1,479 @@
+{
+  "version": 1,
+  "meta": {
+    "title": "Mixer",
+    "description": "A bass, an arpeggio with a rhythm and an echo, and a noise hi-hat, each on a channel of the Mixer"
+  },
+  "tempo": 118,
+  "nodes": [
+    {
+      "id": "sequencer-1",
+      "type": "sequencer",
+      "name": "Bass",
+      "position": {
+        "x": 40,
+        "y": 40
+      },
+      "params": {
+        "division": "1/8",
+        "length": 16,
+        "gate": 0.5,
+        "glide": 60,
+        "octave": -2,
+        "root": "C",
+        "scale": "pentatonic minor",
+        "chord": "off",
+        "keys": "off",
+        "launch": "bar",
+        "steps": "C4 - C4 C5 - C4 - D#4 C4 - C4 G4 - A#4 G4 -"
+      }
+    },
+    {
+      "id": "oscillator-2",
+      "type": "oscillator",
+      "position": {
+        "x": 400,
+        "y": 40
+      },
+      "params": {
+        "waveform": "sawtooth",
+        "mode": "keyboard",
+        "frequency": 440,
+        "detune": 0
+      }
+    },
+    {
+      "id": "filter-3",
+      "type": "filter",
+      "position": {
+        "x": 720,
+        "y": 40
+      },
+      "params": {
+        "type": "lowpass",
+        "frequency": 400,
+        "Q": 8
+      }
+    },
+    {
+      "id": "gain-4",
+      "type": "gain",
+      "name": "Bass VCA",
+      "position": {
+        "x": 1040,
+        "y": 40
+      },
+      "params": {
+        "gain": 0
+      }
+    },
+    {
+      "id": "envelope-5",
+      "type": "envelope",
+      "position": {
+        "x": 720,
+        "y": 300
+      },
+      "params": {
+        "attack": 0.003,
+        "decay": 0.2,
+        "sustain": 0.3,
+        "release": 0.08,
+        "curve": "linear",
+        "spread": 0.01
+      }
+    },
+    {
+      "id": "arpeggiator-6",
+      "type": "arpeggiator",
+      "name": "Arp",
+      "position": {
+        "x": 40,
+        "y": 787
+      },
+      "params": {
+        "source": "notes",
+        "division": "1/16",
+        "start": "grid",
+        "pattern": "up-down",
+        "chord": "off",
+        "span": 2,
+        "gate": 0.35,
+        "length": 16,
+        "transpose": 0,
+        "rhythm": "x - x x x - x - x x - x x - x -",
+        "notes": "C4 D#4 G4 A#4",
+        "octave": 0,
+        "keys": "off",
+        "launch": "bar"
+      }
+    },
+    {
+      "id": "oscillator-7",
+      "type": "oscillator",
+      "position": {
+        "x": 400,
+        "y": 787
+      },
+      "params": {
+        "waveform": "square",
+        "mode": "keyboard",
+        "frequency": 440,
+        "detune": 0
+      }
+    },
+    {
+      "id": "gain-8",
+      "type": "gain",
+      "name": "Arp VCA",
+      "position": {
+        "x": 720,
+        "y": 787
+      },
+      "params": {
+        "gain": 0
+      }
+    },
+    {
+      "id": "envelope-9",
+      "type": "envelope",
+      "position": {
+        "x": 400,
+        "y": 1047
+      },
+      "params": {
+        "attack": 0.002,
+        "decay": 0.12,
+        "sustain": 0.2,
+        "release": 0.1,
+        "curve": "linear",
+        "spread": 0.01
+      }
+    },
+    {
+      "id": "delay-10",
+      "type": "delay",
+      "name": "Arp echo",
+      "position": {
+        "x": 1040,
+        "y": 787
+      },
+      "params": {
+        "sync": "3/16",
+        "time": 0.4,
+        "feedback": 0.35,
+        "mix": 0.3
+      }
+    },
+    {
+      "id": "sequencer-11",
+      "type": "sequencer",
+      "name": "Hats",
+      "position": {
+        "x": 40,
+        "y": 1366
+      },
+      "params": {
+        "division": "1/16",
+        "length": 16,
+        "gate": 0.2,
+        "glide": 60,
+        "octave": 0,
+        "root": "C",
+        "scale": "pentatonic minor",
+        "chord": "off",
+        "keys": "off",
+        "launch": "bar",
+        "steps": "- - C4 - - - C4 - - - C4 - - - C4 C4"
+      }
+    },
+    {
+      "id": "noise-12",
+      "type": "noise",
+      "position": {
+        "x": 400,
+        "y": 1366
+      },
+      "params": {}
+    },
+    {
+      "id": "filter-13",
+      "type": "filter",
+      "position": {
+        "x": 720,
+        "y": 1366
+      },
+      "params": {
+        "type": "highpass",
+        "frequency": 7000,
+        "Q": 1
+      }
+    },
+    {
+      "id": "gain-14",
+      "type": "gain",
+      "name": "Hats VCA",
+      "position": {
+        "x": 1040,
+        "y": 1366
+      },
+      "params": {
+        "gain": 0
+      }
+    },
+    {
+      "id": "envelope-15",
+      "type": "envelope",
+      "position": {
+        "x": 720,
+        "y": 1626
+      },
+      "params": {
+        "attack": 0.001,
+        "decay": 0.05,
+        "sustain": 0,
+        "release": 0.03,
+        "curve": "linear",
+        "spread": 0.01
+      }
+    },
+    {
+      "id": "mixer-16",
+      "type": "mixer",
+      "position": {
+        "x": 1400,
+        "y": 787
+      },
+      "params": {
+        "level": 0.6
+      }
+    },
+    {
+      "id": "output-17",
+      "type": "output",
+      "position": {
+        "x": 1720,
+        "y": 787
+      },
+      "params": {
+        "volume": 0.8,
+        "limiter": "on"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "id": "sequencer-1:pitch->oscillator-2:detune",
+      "source": {
+        "nodeId": "sequencer-1",
+        "port": "pitch"
+      },
+      "target": {
+        "nodeId": "oscillator-2",
+        "port": "detune"
+      }
+    },
+    {
+      "id": "sequencer-1:gate->envelope-5:gate",
+      "source": {
+        "nodeId": "sequencer-1",
+        "port": "gate"
+      },
+      "target": {
+        "nodeId": "envelope-5",
+        "port": "gate"
+      }
+    },
+    {
+      "id": "oscillator-2:audio->filter-3:audio",
+      "source": {
+        "nodeId": "oscillator-2",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "filter-3",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "filter-3:audio->gain-4:audio",
+      "source": {
+        "nodeId": "filter-3",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "gain-4",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "envelope-5:out->gain-4:gain",
+      "source": {
+        "nodeId": "envelope-5",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "gain-4",
+        "port": "gain"
+      }
+    },
+    {
+      "id": "envelope-5:out->filter-3:frequency",
+      "source": {
+        "nodeId": "envelope-5",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "filter-3",
+        "port": "frequency"
+      },
+      "amount": 0.5
+    },
+    {
+      "id": "arpeggiator-6:pitch->oscillator-7:detune",
+      "source": {
+        "nodeId": "arpeggiator-6",
+        "port": "pitch"
+      },
+      "target": {
+        "nodeId": "oscillator-7",
+        "port": "detune"
+      }
+    },
+    {
+      "id": "arpeggiator-6:gate->envelope-9:gate",
+      "source": {
+        "nodeId": "arpeggiator-6",
+        "port": "gate"
+      },
+      "target": {
+        "nodeId": "envelope-9",
+        "port": "gate"
+      }
+    },
+    {
+      "id": "oscillator-7:audio->gain-8:audio",
+      "source": {
+        "nodeId": "oscillator-7",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "gain-8",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "envelope-9:out->gain-8:gain",
+      "source": {
+        "nodeId": "envelope-9",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "gain-8",
+        "port": "gain"
+      }
+    },
+    {
+      "id": "gain-8:audio->delay-10:audio",
+      "source": {
+        "nodeId": "gain-8",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "delay-10",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "sequencer-11:gate->envelope-15:gate",
+      "source": {
+        "nodeId": "sequencer-11",
+        "port": "gate"
+      },
+      "target": {
+        "nodeId": "envelope-15",
+        "port": "gate"
+      }
+    },
+    {
+      "id": "noise-12:audio->filter-13:audio",
+      "source": {
+        "nodeId": "noise-12",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "filter-13",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "filter-13:audio->gain-14:audio",
+      "source": {
+        "nodeId": "filter-13",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "gain-14",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "envelope-15:out->gain-14:gain",
+      "source": {
+        "nodeId": "envelope-15",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "gain-14",
+        "port": "gain"
+      }
+    },
+    {
+      "id": "gain-4:audio->mixer-16:audio",
+      "source": {
+        "nodeId": "gain-4",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "mixer-16",
+        "port": "audio"
+      },
+      "amount": 0.8
+    },
+    {
+      "id": "delay-10:audio->mixer-16:audio",
+      "source": {
+        "nodeId": "delay-10",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "mixer-16",
+        "port": "audio"
+      },
+      "amount": 0.45
+    },
+    {
+      "id": "gain-14:audio->mixer-16:audio",
+      "source": {
+        "nodeId": "gain-14",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "mixer-16",
+        "port": "audio"
+      },
+      "amount": 0.3
+    },
+    {
+      "id": "mixer-16:audio->output-17:audio",
+      "source": {
+        "nodeId": "mixer-16",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "output-17",
+        "port": "audio"
+      }
+    }
+  ]
+}

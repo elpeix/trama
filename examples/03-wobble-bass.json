@@ -1,0 +1,180 @@
+{
+  "version": 1,
+  "meta": {
+    "title": "Wobble bass",
+    "description": "A bass with an LFO on the resonant filter, synced to eighths"
+  },
+  "tempo": 120,
+  "nodes": [
+    {
+      "id": "keyboard-1",
+      "type": "keyboard",
+      "position": {
+        "x": 40,
+        "y": 320
+      },
+      "params": {
+        "transpose": 0
+      }
+    },
+    {
+      "id": "oscillator-2",
+      "type": "oscillator",
+      "position": {
+        "x": 360,
+        "y": 40
+      },
+      "params": {
+        "waveform": "sawtooth",
+        "mode": "keyboard",
+        "frequency": 440,
+        "detune": 0
+      }
+    },
+    {
+      "id": "filter-3",
+      "type": "filter",
+      "position": {
+        "x": 680,
+        "y": 40
+      },
+      "params": {
+        "type": "lowpass",
+        "frequency": 900,
+        "Q": 8
+      }
+    },
+    {
+      "id": "gain-4",
+      "type": "gain",
+      "position": {
+        "x": 1000,
+        "y": 40
+      },
+      "params": {
+        "gain": 0
+      }
+    },
+    {
+      "id": "lfo-5",
+      "type": "lfo",
+      "position": {
+        "x": 680,
+        "y": 320
+      },
+      "params": {
+        "waveform": "sine",
+        "sync": "1/8",
+        "rate": 3
+      }
+    },
+    {
+      "id": "envelope-6",
+      "type": "envelope",
+      "position": {
+        "x": 360,
+        "y": 320
+      },
+      "params": {
+        "attack": 0.005,
+        "decay": 0.2,
+        "sustain": 0.8,
+        "release": 0.15,
+        "curve": "linear",
+        "spread": 0.01
+      }
+    },
+    {
+      "id": "output-7",
+      "type": "output",
+      "position": {
+        "x": 1320,
+        "y": 40
+      },
+      "params": {
+        "volume": 1,
+        "limiter": "on"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "id": "keyboard-1:pitch->oscillator-2:detune",
+      "source": {
+        "nodeId": "keyboard-1",
+        "port": "pitch"
+      },
+      "target": {
+        "nodeId": "oscillator-2",
+        "port": "detune"
+      }
+    },
+    {
+      "id": "keyboard-1:gate->envelope-6:gate",
+      "source": {
+        "nodeId": "keyboard-1",
+        "port": "gate"
+      },
+      "target": {
+        "nodeId": "envelope-6",
+        "port": "gate"
+      }
+    },
+    {
+      "id": "oscillator-2:audio->filter-3:audio",
+      "source": {
+        "nodeId": "oscillator-2",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "filter-3",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "lfo-5:out->filter-3:frequency",
+      "source": {
+        "nodeId": "lfo-5",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "filter-3",
+        "port": "frequency"
+      },
+      "amount": 0.2
+    },
+    {
+      "id": "filter-3:audio->gain-4:audio",
+      "source": {
+        "nodeId": "filter-3",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "gain-4",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "envelope-6:out->gain-4:gain",
+      "source": {
+        "nodeId": "envelope-6",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "gain-4",
+        "port": "gain"
+      }
+    },
+    {
+      "id": "gain-4:audio->output-7:audio",
+      "source": {
+        "nodeId": "gain-4",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "output-7",
+        "port": "audio"
+      }
+    }
+  ]
+}

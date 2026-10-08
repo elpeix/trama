@@ -1,0 +1,167 @@
+{
+  "version": 1,
+  "meta": {
+    "title": "Flanger",
+    "description": "A saw bass line in E minor through a Flanger with feedback, sweeping slowly like a jet"
+  },
+  "tempo": 110,
+  "nodes": [
+    {
+      "id": "sequencer-1",
+      "type": "sequencer",
+      "position": {
+        "x": 40,
+        "y": 40
+      },
+      "params": {
+        "division": "1/8",
+        "length": 16,
+        "gate": 0.5,
+        "glide": 60,
+        "octave": -1,
+        "root": "E",
+        "scale": "minor",
+        "chord": "off",
+        "keys": "off",
+        "launch": "bar",
+        "steps": "E4 E4 - E4 G4 - E4 D5 E4 E4 - E4 B4 - A4 G4"
+      }
+    },
+    {
+      "id": "oscillator-2",
+      "type": "oscillator",
+      "position": {
+        "x": 400,
+        "y": 40
+      },
+      "params": {
+        "waveform": "sawtooth",
+        "mode": "keyboard",
+        "frequency": 440,
+        "detune": 0
+      }
+    },
+    {
+      "id": "gain-3",
+      "type": "gain",
+      "position": {
+        "x": 720,
+        "y": 40
+      },
+      "params": {
+        "gain": 0
+      }
+    },
+    {
+      "id": "flanger-4",
+      "type": "flanger",
+      "position": {
+        "x": 1040,
+        "y": 40
+      },
+      "params": {
+        "rate": 0.15,
+        "depth": 0.9,
+        "delay": 3,
+        "feedback": 0.7,
+        "mix": 0.5
+      }
+    },
+    {
+      "id": "envelope-5",
+      "type": "envelope",
+      "position": {
+        "x": 400,
+        "y": 320
+      },
+      "params": {
+        "attack": 0.005,
+        "decay": 0.2,
+        "sustain": 0.4,
+        "release": 0.1,
+        "curve": "exp",
+        "spread": 0.01
+      }
+    },
+    {
+      "id": "output-6",
+      "type": "output",
+      "position": {
+        "x": 1360,
+        "y": 40
+      },
+      "params": {
+        "volume": 0.7,
+        "limiter": "on"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "id": "sequencer-1:pitch->oscillator-2:detune",
+      "source": {
+        "nodeId": "sequencer-1",
+        "port": "pitch"
+      },
+      "target": {
+        "nodeId": "oscillator-2",
+        "port": "detune"
+      }
+    },
+    {
+      "id": "sequencer-1:gate->envelope-5:gate",
+      "source": {
+        "nodeId": "sequencer-1",
+        "port": "gate"
+      },
+      "target": {
+        "nodeId": "envelope-5",
+        "port": "gate"
+      }
+    },
+    {
+      "id": "oscillator-2:audio->gain-3:audio",
+      "source": {
+        "nodeId": "oscillator-2",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "gain-3",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "envelope-5:out->gain-3:gain",
+      "source": {
+        "nodeId": "envelope-5",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "gain-3",
+        "port": "gain"
+      }
+    },
+    {
+      "id": "gain-3:audio->flanger-4:audio",
+      "source": {
+        "nodeId": "gain-3",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "flanger-4",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "flanger-4:audio->output-6:audio",
+      "source": {
+        "nodeId": "flanger-4",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "output-6",
+        "port": "audio"
+      }
+    }
+  ]
+}

@@ -1,0 +1,115 @@
+{
+  "version": 1,
+  "meta": {
+    "title": "Wind",
+    "description": "Wind made of filtered noise"
+  },
+  "tempo": 120,
+  "nodes": [
+    {
+      "id": "noise-1",
+      "type": "noise",
+      "position": {
+        "x": 40,
+        "y": 40
+      },
+      "params": {}
+    },
+    {
+      "id": "lfo-2",
+      "type": "lfo",
+      "position": {
+        "x": 40,
+        "y": 320
+      },
+      "params": {
+        "waveform": "sine",
+        "sync": "free",
+        "rate": 0.1
+      }
+    },
+    {
+      "id": "filter-3",
+      "type": "filter",
+      "position": {
+        "x": 360,
+        "y": 40
+      },
+      "params": {
+        "type": "bandpass",
+        "frequency": 1200,
+        "Q": 6
+      }
+    },
+    {
+      "id": "gain-4",
+      "type": "gain",
+      "position": {
+        "x": 680,
+        "y": 40
+      },
+      "params": {
+        "gain": 0.3
+      }
+    },
+    {
+      "id": "output-5",
+      "type": "output",
+      "position": {
+        "x": 1000,
+        "y": 40
+      },
+      "params": {
+        "volume": 1,
+        "limiter": "on"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "id": "noise-1:audio->filter-3:audio",
+      "source": {
+        "nodeId": "noise-1",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "filter-3",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "lfo-2:out->filter-3:frequency",
+      "source": {
+        "nodeId": "lfo-2",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "filter-3",
+        "port": "frequency"
+      },
+      "amount": 0.2
+    },
+    {
+      "id": "filter-3:audio->gain-4:audio",
+      "source": {
+        "nodeId": "filter-3",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "gain-4",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "gain-4:audio->output-5:audio",
+      "source": {
+        "nodeId": "gain-4",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "output-5",
+        "port": "audio"
+      }
+    }
+  ]
+}

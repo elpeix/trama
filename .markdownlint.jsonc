@@ -1,0 +1,8 @@
+{
+  // Table rows cannot be wrapped, so only prose is held to the line length.
+  "MD013": { "tables": false },
+  // Several sections can have their own "Decisions" subsection.
+  "MD024": { "siblings_only": true },
+  // <kbd> is the element for keys, shown as keycaps on GitHub.
+  "MD033": { "allowed_elements": ["kbd"] }
+}

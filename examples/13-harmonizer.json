@@ -1,0 +1,193 @@
+{
+  "version": 1,
+  "meta": {
+    "title": "Harmonizer",
+    "description": "A melody in A minor pentatonic, doubled a fifth up by the Pitch Shifter"
+  },
+  "tempo": 100,
+  "nodes": [
+    {
+      "id": "sequencer-1",
+      "type": "sequencer",
+      "name": "Lead",
+      "position": {
+        "x": 40,
+        "y": 40
+      },
+      "params": {
+        "division": "1/8",
+        "length": 16,
+        "gate": 0.7,
+        "glide": 60,
+        "octave": 0,
+        "root": "A",
+        "scale": "pentatonic minor",
+        "chord": "off",
+        "keys": "off",
+        "launch": "bar",
+        "steps": "A4 - C5 D5 - E5 - D5 C5 - A4 - G4 - A4 -"
+      }
+    },
+    {
+      "id": "oscillator-2",
+      "type": "oscillator",
+      "position": {
+        "x": 400,
+        "y": 40
+      },
+      "params": {
+        "waveform": "triangle",
+        "mode": "keyboard",
+        "frequency": 440,
+        "detune": 0
+      }
+    },
+    {
+      "id": "envelope-3",
+      "type": "envelope",
+      "position": {
+        "x": 400,
+        "y": 380
+      },
+      "params": {
+        "attack": 0.01,
+        "decay": 0.2,
+        "sustain": 0.6,
+        "release": 0.2,
+        "curve": "linear",
+        "spread": 0.01
+      }
+    },
+    {
+      "id": "gain-4",
+      "type": "gain",
+      "name": "Lead VCA",
+      "position": {
+        "x": 760,
+        "y": 40
+      },
+      "params": {
+        "gain": 0
+      }
+    },
+    {
+      "id": "pitchShifter-5",
+      "type": "pitchShifter",
+      "name": "Fifth",
+      "position": {
+        "x": 1120,
+        "y": 40
+      },
+      "params": {
+        "shift": 7,
+        "window": 60,
+        "mix": 0.5
+      }
+    },
+    {
+      "id": "delay-6",
+      "type": "delay",
+      "position": {
+        "x": 1480,
+        "y": 40
+      },
+      "params": {
+        "sync": "1/4",
+        "time": 0.5,
+        "feedback": 0.3,
+        "mix": 0.25
+      }
+    },
+    {
+      "id": "output-7",
+      "type": "output",
+      "position": {
+        "x": 1840,
+        "y": 40
+      },
+      "params": {
+        "volume": 0.8,
+        "limiter": "on"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "id": "sequencer-1:pitch->oscillator-2:detune",
+      "source": {
+        "nodeId": "sequencer-1",
+        "port": "pitch"
+      },
+      "target": {
+        "nodeId": "oscillator-2",
+        "port": "detune"
+      }
+    },
+    {
+      "id": "sequencer-1:gate->envelope-3:gate",
+      "source": {
+        "nodeId": "sequencer-1",
+        "port": "gate"
+      },
+      "target": {
+        "nodeId": "envelope-3",
+        "port": "gate"
+      }
+    },
+    {
+      "id": "oscillator-2:audio->gain-4:audio",
+      "source": {
+        "nodeId": "oscillator-2",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "gain-4",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "envelope-3:out->gain-4:gain",
+      "source": {
+        "nodeId": "envelope-3",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "gain-4",
+        "port": "gain"
+      }
+    },
+    {
+      "id": "gain-4:audio->pitchShifter-5:audio",
+      "source": {
+        "nodeId": "gain-4",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "pitchShifter-5",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "pitchShifter-5:audio->delay-6:audio",
+      "source": {
+        "nodeId": "pitchShifter-5",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "delay-6",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "delay-6:audio->output-7:audio",
+      "source": {
+        "nodeId": "delay-6",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "output-7",
+        "port": "audio"
+      }
+    }
+  ]
+}

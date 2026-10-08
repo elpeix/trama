@@ -1,0 +1,156 @@
+{
+  "version": 1,
+  "meta": {
+    "title": "Echo pluck",
+    "description": "A plucked note with a delay"
+  },
+  "tempo": 120,
+  "nodes": [
+    {
+      "id": "keyboard-1",
+      "type": "keyboard",
+      "position": {
+        "x": 40,
+        "y": 320
+      },
+      "params": {
+        "transpose": 0
+      }
+    },
+    {
+      "id": "oscillator-2",
+      "type": "oscillator",
+      "position": {
+        "x": 360,
+        "y": 40
+      },
+      "params": {
+        "waveform": "triangle",
+        "mode": "keyboard",
+        "frequency": 440,
+        "detune": 0
+      }
+    },
+    {
+      "id": "gain-3",
+      "type": "gain",
+      "position": {
+        "x": 680,
+        "y": 40
+      },
+      "params": {
+        "gain": 0
+      }
+    },
+    {
+      "id": "envelope-4",
+      "type": "envelope",
+      "position": {
+        "x": 360,
+        "y": 320
+      },
+      "params": {
+        "attack": 0.002,
+        "decay": 0.25,
+        "sustain": 0,
+        "release": 0.2,
+        "curve": "linear",
+        "spread": 0.01
+      }
+    },
+    {
+      "id": "delay-5",
+      "type": "delay",
+      "position": {
+        "x": 1000,
+        "y": 40
+      },
+      "params": {
+        "sync": "free",
+        "time": 0.375,
+        "feedback": 0.5,
+        "mix": 0.4
+      }
+    },
+    {
+      "id": "output-6",
+      "type": "output",
+      "position": {
+        "x": 1320,
+        "y": 40
+      },
+      "params": {
+        "volume": 1,
+        "limiter": "on"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "id": "keyboard-1:pitch->oscillator-2:detune",
+      "source": {
+        "nodeId": "keyboard-1",
+        "port": "pitch"
+      },
+      "target": {
+        "nodeId": "oscillator-2",
+        "port": "detune"
+      }
+    },
+    {
+      "id": "keyboard-1:gate->envelope-4:gate",
+      "source": {
+        "nodeId": "keyboard-1",
+        "port": "gate"
+      },
+      "target": {
+        "nodeId": "envelope-4",
+        "port": "gate"
+      }
+    },
+    {
+      "id": "oscillator-2:audio->gain-3:audio",
+      "source": {
+        "nodeId": "oscillator-2",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "gain-3",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "envelope-4:out->gain-3:gain",
+      "source": {
+        "nodeId": "envelope-4",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "gain-3",
+        "port": "gain"
+      }
+    },
+    {
+      "id": "gain-3:audio->delay-5:audio",
+      "source": {
+        "nodeId": "gain-3",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "delay-5",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "delay-5:audio->output-6:audio",
+      "source": {
+        "nodeId": "delay-5",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "output-6",
+        "port": "audio"
+      }
+    }
+  ]
+}

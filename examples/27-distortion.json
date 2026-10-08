@@ -1,0 +1,217 @@
+{
+  "version": 1,
+  "meta": {
+    "title": "Distortion",
+    "description": "A bass in A minor through two Distortions: a fold with an LFO on the Drive, and a drawn curve"
+  },
+  "tempo": 100,
+  "nodes": [
+    {
+      "id": "sequencer-1",
+      "type": "sequencer",
+      "position": {
+        "x": 40,
+        "y": 40
+      },
+      "params": {
+        "division": "1/16",
+        "length": 16,
+        "gate": 0.6,
+        "glide": 60,
+        "octave": -2,
+        "root": "A",
+        "scale": "minor",
+        "chord": "off",
+        "keys": "off",
+        "launch": "bar",
+        "steps": "A4 - A4 A5 - A4 G4 - A4 - C5 - A4 E5 - D5"
+      }
+    },
+    {
+      "id": "oscillator-2",
+      "type": "oscillator",
+      "position": {
+        "x": 400,
+        "y": 40
+      },
+      "params": {
+        "waveform": "sine",
+        "mode": "keyboard",
+        "frequency": 440,
+        "detune": 0
+      }
+    },
+    {
+      "id": "gain-3",
+      "type": "gain",
+      "position": {
+        "x": 720,
+        "y": 40
+      },
+      "params": {
+        "gain": 0
+      }
+    },
+    {
+      "id": "envelope-4",
+      "type": "envelope",
+      "position": {
+        "x": 400,
+        "y": 320
+      },
+      "params": {
+        "attack": 0.003,
+        "decay": 0.2,
+        "sustain": 0.5,
+        "release": 0.08,
+        "curve": "exp",
+        "spread": 0.01
+      }
+    },
+    {
+      "id": "lfo-5",
+      "type": "lfo",
+      "position": {
+        "x": 720,
+        "y": 320
+      },
+      "params": {
+        "waveform": "triangle",
+        "sync": "1 bar",
+        "rate": 0.5
+      }
+    },
+    {
+      "id": "distortion-6",
+      "type": "distortion",
+      "position": {
+        "x": 1040,
+        "y": 40
+      },
+      "params": {
+        "mode": "fold",
+        "drive": 3,
+        "tone": 6000,
+        "mix": 1
+      }
+    },
+    {
+      "id": "distortion-7",
+      "type": "distortion",
+      "position": {
+        "x": 1360,
+        "y": 40
+      },
+      "params": {
+        "mode": "drawn",
+        "drive": 2,
+        "shape": "-0.7 -0.69 -0.69 -0.68 -0.67 -0.66 -0.65 -0.64 -0.62 -0.61 -0.6 -0.58 -0.56 -0.55 -0.53 -0.51 -0.49 -0.46 -0.44 -0.41 -0.39 -0.36 -0.33 -0.3 -0.27 -0.23 -0.2 -0.16 -0.13 -0.09 -0.06 -0.02 0.04 0.12 0.2 0.27 0.35 0.42 0.48 0.54 0.6 0.65 0.69 0.73 0.77 0.8 0.83 0.85 0.88 0.89 0.91 0.93 0.94 0.95 0.96 0.97 0.97 0.98 0.98 0.99 0.99 0.99 1 1",
+        "tone": 5000,
+        "mix": 0.6
+      }
+    },
+    {
+      "id": "output-8",
+      "type": "output",
+      "position": {
+        "x": 1680,
+        "y": 40
+      },
+      "params": {
+        "volume": 0.7,
+        "limiter": "on"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "id": "sequencer-1:pitch->oscillator-2:detune",
+      "source": {
+        "nodeId": "sequencer-1",
+        "port": "pitch"
+      },
+      "target": {
+        "nodeId": "oscillator-2",
+        "port": "detune"
+      }
+    },
+    {
+      "id": "sequencer-1:gate->envelope-4:gate",
+      "source": {
+        "nodeId": "sequencer-1",
+        "port": "gate"
+      },
+      "target": {
+        "nodeId": "envelope-4",
+        "port": "gate"
+      }
+    },
+    {
+      "id": "oscillator-2:audio->gain-3:audio",
+      "source": {
+        "nodeId": "oscillator-2",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "gain-3",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "envelope-4:out->gain-3:gain",
+      "source": {
+        "nodeId": "envelope-4",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "gain-3",
+        "port": "gain"
+      }
+    },
+    {
+      "id": "gain-3:audio->distortion-6:audio",
+      "source": {
+        "nodeId": "gain-3",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "distortion-6",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "lfo-5:out->distortion-6:drive",
+      "source": {
+        "nodeId": "lfo-5",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "distortion-6",
+        "port": "drive"
+      },
+      "amount": 0.5
+    },
+    {
+      "id": "distortion-6:audio->distortion-7:audio",
+      "source": {
+        "nodeId": "distortion-6",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "distortion-7",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "distortion-7:audio->output-8:audio",
+      "source": {
+        "nodeId": "distortion-7",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "output-8",
+        "port": "audio"
+      }
+    }
+  ]
+}

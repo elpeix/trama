@@ -1,0 +1,220 @@
+{
+  "version": 1,
+  "tempo": 118,
+  "nodes": [
+    {
+      "id": "sequencer-1",
+      "type": "sequencer",
+      "name": "Bass line",
+      "position": {
+        "x": 40,
+        "y": 40
+      },
+      "params": {
+        "division": "1/16",
+        "length": 16,
+        "gate": 0.55,
+        "glide": 40,
+        "octave": -2,
+        "root": "D",
+        "scale": "minor",
+        "chord": "off",
+        "keys": "off",
+        "launch": "bar",
+        "steps": "D4! D4 D5 D4 F4 D4! C5 D4 D4! A4 D4 G4 D4! F4 _G4 C5"
+      }
+    },
+    {
+      "id": "vco-2",
+      "type": "vco",
+      "position": {
+        "x": 400,
+        "y": 40
+      },
+      "params": {
+        "waveform": "sawtooth",
+        "mode": "keyboard",
+        "frequency": 440,
+        "detune": 0,
+        "width": 0.5,
+        "voices": 1,
+        "spread": 20,
+        "drift": 0.15
+      }
+    },
+    {
+      "id": "ladder-3",
+      "type": "ladder",
+      "position": {
+        "x": 760,
+        "y": 40
+      },
+      "params": {
+        "frequency": 220,
+        "resonance": 0.55,
+        "drive": 0.5
+      }
+    },
+    {
+      "id": "envelope-4",
+      "type": "envelope",
+      "position": {
+        "x": 400,
+        "y": 400
+      },
+      "params": {
+        "attack": 0.002,
+        "decay": 0.22,
+        "sustain": 0.15,
+        "release": 0.08,
+        "curve": "exp",
+        "spread": 0.01
+      }
+    },
+    {
+      "id": "gain-5",
+      "type": "gain",
+      "name": "VCA",
+      "position": {
+        "x": 1120,
+        "y": 40
+      },
+      "params": {
+        "gain": 0
+      }
+    },
+    {
+      "id": "delay-6",
+      "type": "delay",
+      "position": {
+        "x": 1480,
+        "y": 40
+      },
+      "params": {
+        "sync": "3/16",
+        "time": 0.3,
+        "feedback": 0.25,
+        "mix": 0.15
+      }
+    },
+    {
+      "id": "output-7",
+      "type": "output",
+      "position": {
+        "x": 1840,
+        "y": 40
+      },
+      "params": {
+        "volume": 0.7,
+        "limiter": "on"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "id": "sequencer-1:pitch->vco-2:detune",
+      "source": {
+        "nodeId": "sequencer-1",
+        "port": "pitch"
+      },
+      "target": {
+        "nodeId": "vco-2",
+        "port": "detune"
+      }
+    },
+    {
+      "id": "sequencer-1:gate->envelope-4:gate",
+      "source": {
+        "nodeId": "sequencer-1",
+        "port": "gate"
+      },
+      "target": {
+        "nodeId": "envelope-4",
+        "port": "gate"
+      }
+    },
+    {
+      "id": "sequencer-1:accent->ladder-3:resonance",
+      "source": {
+        "nodeId": "sequencer-1",
+        "port": "accent"
+      },
+      "target": {
+        "nodeId": "ladder-3",
+        "port": "resonance"
+      },
+      "amount": 0.3
+    },
+    {
+      "id": "vco-2:audio->ladder-3:audio",
+      "source": {
+        "nodeId": "vco-2",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "ladder-3",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "envelope-4:out->ladder-3:frequency",
+      "source": {
+        "nodeId": "envelope-4",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "ladder-3",
+        "port": "frequency"
+      },
+      "amount": 0.55
+    },
+    {
+      "id": "ladder-3:audio->gain-5:audio",
+      "source": {
+        "nodeId": "ladder-3",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "gain-5",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "envelope-4:out->gain-5:gain",
+      "source": {
+        "nodeId": "envelope-4",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "gain-5",
+        "port": "gain"
+      }
+    },
+    {
+      "id": "gain-5:audio->delay-6:audio",
+      "source": {
+        "nodeId": "gain-5",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "delay-6",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "delay-6:audio->output-7:audio",
+      "source": {
+        "nodeId": "delay-6",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "output-7",
+        "port": "audio"
+      }
+    }
+  ],
+  "meta": {
+    "title": "Ladder",
+    "description": "A saw bass through the 24 dB low-pass of a Moog, driven into saturation: the envelope opens it on each note, and the accents make it ring"
+  }
+}

@@ -1,0 +1,176 @@
+{
+  "version": 1,
+  "meta": {
+    "title": "Clock",
+    "description": "One Clock plucks on eighths, and another changes the note every three sixteenths: three against two"
+  },
+  "tempo": 96,
+  "nodes": [
+    {
+      "id": "clock-1",
+      "type": "clock",
+      "position": {
+        "x": 40,
+        "y": 40
+      },
+      "params": {
+        "gate": 0.5
+      }
+    },
+    {
+      "id": "clock-2",
+      "type": "clock",
+      "position": {
+        "x": 40,
+        "y": 420
+      },
+      "params": {
+        "gate": 0.5
+      }
+    },
+    {
+      "id": "sampleHold-3",
+      "type": "sampleHold",
+      "position": {
+        "x": 400,
+        "y": 420
+      },
+      "params": {
+        "clock": "gate"
+      }
+    },
+    {
+      "id": "quantizer-4",
+      "type": "quantizer",
+      "position": {
+        "x": 720,
+        "y": 420
+      },
+      "params": {
+        "root": "A",
+        "scale": "pentatonic minor"
+      }
+    },
+    {
+      "id": "physicalModel-5",
+      "type": "physicalModel",
+      "position": {
+        "x": 720,
+        "y": 40
+      },
+      "params": {
+        "mode": "keyboard",
+        "frequency": 220,
+        "detune": 0,
+        "decay": 1.5,
+        "damp": 0.08,
+        "brightness": 0.5
+      }
+    },
+    {
+      "id": "reverb-6",
+      "type": "reverb",
+      "position": {
+        "x": 1040,
+        "y": 40
+      },
+      "params": {
+        "decay": 3,
+        "predelay": 0.02,
+        "tone": 5000,
+        "mix": 0.35
+      }
+    },
+    {
+      "id": "output-7",
+      "type": "output",
+      "position": {
+        "x": 1360,
+        "y": 40
+      },
+      "params": {
+        "volume": 0.8,
+        "limiter": "on"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "id": "clock-1:eighth->physicalModel-5:gate",
+      "source": {
+        "nodeId": "clock-1",
+        "port": "eighth"
+      },
+      "target": {
+        "nodeId": "physicalModel-5",
+        "port": "gate"
+      }
+    },
+    {
+      "id": "clock-1:sixteenth->clock-2:gate",
+      "source": {
+        "nodeId": "clock-1",
+        "port": "sixteenth"
+      },
+      "target": {
+        "nodeId": "clock-2",
+        "port": "gate"
+      }
+    },
+    {
+      "id": "clock-2:eighth->sampleHold-3:gate",
+      "source": {
+        "nodeId": "clock-2",
+        "port": "eighth"
+      },
+      "target": {
+        "nodeId": "sampleHold-3",
+        "port": "gate"
+      }
+    },
+    {
+      "id": "sampleHold-3:out->quantizer-4:in",
+      "source": {
+        "nodeId": "sampleHold-3",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "quantizer-4",
+        "port": "in"
+      }
+    },
+    {
+      "id": "quantizer-4:out->physicalModel-5:detune",
+      "source": {
+        "nodeId": "quantizer-4",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "physicalModel-5",
+        "port": "detune"
+      }
+    },
+    {
+      "id": "physicalModel-5:audio->reverb-6:audio",
+      "source": {
+        "nodeId": "physicalModel-5",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "reverb-6",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "reverb-6:audio->output-7:audio",
+      "source": {
+        "nodeId": "reverb-6",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "output-7",
+        "port": "audio"
+      }
+    }
+  ]
+}

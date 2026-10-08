@@ -1,0 +1,318 @@
+{
+  "version": 1,
+  "meta": {
+    "title": "Subpatch",
+    "description": "A whole voice (oscillator, filter, ADSR and VCA) inside a subpatch, played by a Seq"
+  },
+  "tempo": 110,
+  "nodes": [
+    {
+      "id": "sequencer-1",
+      "type": "sequencer",
+      "name": "Bass line",
+      "position": {
+        "x": 40,
+        "y": 40
+      },
+      "params": {
+        "division": "1/8",
+        "length": 16,
+        "gate": 0.5,
+        "glide": 60,
+        "octave": -1,
+        "root": "G",
+        "scale": "minor",
+        "chord": "off",
+        "keys": "off",
+        "launch": "bar",
+        "steps": "G4 - G4 A#4 - G4 D5 - G4 - F4 - G4 A#4 C5 -"
+      }
+    },
+    {
+      "id": "subpatch-2",
+      "type": "subpatch",
+      "name": "Voice",
+      "position": {
+        "x": 400,
+        "y": 40
+      },
+      "params": {
+        "voices": 1
+      },
+      "patch": {
+        "nodes": [
+          {
+            "id": "inlet-4",
+            "type": "inlet",
+            "name": "pitch",
+            "position": {
+              "x": 40,
+              "y": 40
+            },
+            "params": {
+              "signal": "control",
+              "value": 0
+            }
+          },
+          {
+            "id": "inlet-5",
+            "type": "inlet",
+            "name": "gate",
+            "position": {
+              "x": 40,
+              "y": 260
+            },
+            "params": {
+              "signal": "trigger",
+              "value": 0
+            }
+          },
+          {
+            "id": "inlet-11",
+            "type": "inlet",
+            "name": "cutoff",
+            "position": {
+              "x": 40,
+              "y": 480
+            },
+            "params": {
+              "signal": "control",
+              "value": 0.2
+            }
+          },
+          {
+            "id": "oscillator-6",
+            "type": "oscillator",
+            "position": {
+              "x": 360,
+              "y": 40
+            },
+            "params": {
+              "waveform": "sawtooth",
+              "mode": "keyboard",
+              "frequency": 440,
+              "detune": 0
+            }
+          },
+          {
+            "id": "envelope-7",
+            "type": "envelope",
+            "position": {
+              "x": 360,
+              "y": 380
+            },
+            "params": {
+              "attack": 0.005,
+              "decay": 0.25,
+              "sustain": 0.35,
+              "release": 0.2,
+              "curve": "linear",
+              "spread": 0.01
+            }
+          },
+          {
+            "id": "filter-8",
+            "type": "filter",
+            "position": {
+              "x": 720,
+              "y": 40
+            },
+            "params": {
+              "type": "lowpass",
+              "frequency": 500,
+              "Q": 8
+            }
+          },
+          {
+            "id": "gain-9",
+            "type": "gain",
+            "name": "VCA",
+            "position": {
+              "x": 1080,
+              "y": 40
+            },
+            "params": {
+              "gain": 0
+            }
+          },
+          {
+            "id": "outlet-10",
+            "type": "outlet",
+            "name": "sound",
+            "position": {
+              "x": 1440,
+              "y": 40
+            },
+            "params": {
+              "signal": "audio"
+            }
+          }
+        ],
+        "connections": [
+          {
+            "id": "inlet-4:out->oscillator-6:detune",
+            "source": {
+              "nodeId": "inlet-4",
+              "port": "out"
+            },
+            "target": {
+              "nodeId": "oscillator-6",
+              "port": "detune"
+            }
+          },
+          {
+            "id": "inlet-5:out->envelope-7:gate",
+            "source": {
+              "nodeId": "inlet-5",
+              "port": "out"
+            },
+            "target": {
+              "nodeId": "envelope-7",
+              "port": "gate"
+            }
+          },
+          {
+            "id": "oscillator-6:audio->filter-8:audio",
+            "source": {
+              "nodeId": "oscillator-6",
+              "port": "audio"
+            },
+            "target": {
+              "nodeId": "filter-8",
+              "port": "audio"
+            }
+          },
+          {
+            "id": "filter-8:audio->gain-9:audio",
+            "source": {
+              "nodeId": "filter-8",
+              "port": "audio"
+            },
+            "target": {
+              "nodeId": "gain-9",
+              "port": "audio"
+            }
+          },
+          {
+            "id": "envelope-7:out->gain-9:gain",
+            "source": {
+              "nodeId": "envelope-7",
+              "port": "out"
+            },
+            "target": {
+              "nodeId": "gain-9",
+              "port": "gain"
+            }
+          },
+          {
+            "id": "envelope-7:out->filter-8:frequency",
+            "source": {
+              "nodeId": "envelope-7",
+              "port": "out"
+            },
+            "target": {
+              "nodeId": "filter-8",
+              "port": "frequency"
+            },
+            "amount": 0.5
+          },
+          {
+            "id": "gain-9:audio->outlet-10:in",
+            "source": {
+              "nodeId": "gain-9",
+              "port": "audio"
+            },
+            "target": {
+              "nodeId": "outlet-10",
+              "port": "in"
+            }
+          },
+          {
+            "id": "inlet-11:out->filter-8:frequency",
+            "source": {
+              "nodeId": "inlet-11",
+              "port": "out"
+            },
+            "target": {
+              "nodeId": "filter-8",
+              "port": "frequency"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lfo-12",
+      "type": "lfo",
+      "name": "Cutoff LFO",
+      "position": {
+        "x": 40,
+        "y": 847
+      },
+      "params": {
+        "waveform": "triangle",
+        "sync": "2 bars",
+        "rate": 0.25
+      }
+    },
+    {
+      "id": "output-3",
+      "type": "output",
+      "position": {
+        "x": 760,
+        "y": 40
+      },
+      "params": {
+        "volume": 0.8,
+        "limiter": "on"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "id": "sequencer-1:pitch->subpatch-2:inlet-4",
+      "source": {
+        "nodeId": "sequencer-1",
+        "port": "pitch"
+      },
+      "target": {
+        "nodeId": "subpatch-2",
+        "port": "inlet-4"
+      }
+    },
+    {
+      "id": "sequencer-1:gate->subpatch-2:inlet-5",
+      "source": {
+        "nodeId": "sequencer-1",
+        "port": "gate"
+      },
+      "target": {
+        "nodeId": "subpatch-2",
+        "port": "inlet-5"
+      }
+    },
+    {
+      "id": "subpatch-2:outlet-10->output-3:audio",
+      "source": {
+        "nodeId": "subpatch-2",
+        "port": "outlet-10"
+      },
+      "target": {
+        "nodeId": "output-3",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "lfo-12:out->subpatch-2:inlet-11",
+      "source": {
+        "nodeId": "lfo-12",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "subpatch-2",
+        "port": "inlet-11"
+      },
+      "amount": 0.3
+    }
+  ]
+}

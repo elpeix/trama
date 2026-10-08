@@ -1,0 +1,201 @@
+{
+  "version": 1,
+  "meta": {
+    "title": "Grains",
+    "description": "Plucks of the Physical Model turned into a cloud an octave up by a Granulator"
+  },
+  "tempo": 100,
+  "nodes": [
+    {
+      "id": "sequencer-1",
+      "type": "sequencer",
+      "name": "Plucks",
+      "position": {
+        "x": 40,
+        "y": 40
+      },
+      "params": {
+        "division": "1/8",
+        "length": 16,
+        "gate": 0.5,
+        "glide": 60,
+        "octave": 0,
+        "root": "E",
+        "scale": "pentatonic minor",
+        "chord": "off",
+        "keys": "off",
+        "launch": "bar",
+        "steps": "E4 - G4 - B4 - - D5 - B4 - - A4 - G4 -"
+      }
+    },
+    {
+      "id": "physicalModel-2",
+      "type": "physicalModel",
+      "position": {
+        "x": 400,
+        "y": 40
+      },
+      "params": {
+        "mode": "keyboard",
+        "frequency": 220,
+        "detune": 0,
+        "decay": 2,
+        "damp": 0.08,
+        "brightness": 0.6
+      }
+    },
+    {
+      "id": "granulator-3",
+      "type": "granulator",
+      "name": "Cloud",
+      "position": {
+        "x": 760,
+        "y": 40
+      },
+      "params": {
+        "position": 0.6,
+        "size": 140,
+        "density": 24,
+        "pitch": 12,
+        "spread": 0.5,
+        "mix": 0.6,
+        "freeze": "off"
+      }
+    },
+    {
+      "id": "lfo-4",
+      "type": "lfo",
+      "name": "Position LFO",
+      "position": {
+        "x": 400,
+        "y": 440
+      },
+      "params": {
+        "waveform": "sine",
+        "sync": "4 bars",
+        "rate": 0.125
+      }
+    },
+    {
+      "id": "lfo-5",
+      "type": "lfo",
+      "name": "Spread LFO",
+      "position": {
+        "x": 400,
+        "y": 660
+      },
+      "params": {
+        "waveform": "triangle",
+        "sync": "2 bars",
+        "rate": 0.25
+      }
+    },
+    {
+      "id": "delay-6",
+      "type": "delay",
+      "position": {
+        "x": 1120,
+        "y": 40
+      },
+      "params": {
+        "sync": "3/8",
+        "time": 0.5,
+        "feedback": 0.4,
+        "mix": 0.3
+      }
+    },
+    {
+      "id": "output-7",
+      "type": "output",
+      "position": {
+        "x": 1480,
+        "y": 40
+      },
+      "params": {
+        "volume": 0.8,
+        "limiter": "on"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "id": "sequencer-1:pitch->physicalModel-2:detune",
+      "source": {
+        "nodeId": "sequencer-1",
+        "port": "pitch"
+      },
+      "target": {
+        "nodeId": "physicalModel-2",
+        "port": "detune"
+      }
+    },
+    {
+      "id": "sequencer-1:gate->physicalModel-2:gate",
+      "source": {
+        "nodeId": "sequencer-1",
+        "port": "gate"
+      },
+      "target": {
+        "nodeId": "physicalModel-2",
+        "port": "gate"
+      }
+    },
+    {
+      "id": "physicalModel-2:audio->granulator-3:audio",
+      "source": {
+        "nodeId": "physicalModel-2",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "granulator-3",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "lfo-4:out->granulator-3:position",
+      "source": {
+        "nodeId": "lfo-4",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "granulator-3",
+        "port": "position"
+      },
+      "amount": 0.3
+    },
+    {
+      "id": "lfo-5:out->granulator-3:spread",
+      "source": {
+        "nodeId": "lfo-5",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "granulator-3",
+        "port": "spread"
+      },
+      "amount": 0.3
+    },
+    {
+      "id": "granulator-3:audio->delay-6:audio",
+      "source": {
+        "nodeId": "granulator-3",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "delay-6",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "delay-6:audio->output-7:audio",
+      "source": {
+        "nodeId": "delay-6",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "output-7",
+        "port": "audio"
+      }
+    }
+  ]
+}

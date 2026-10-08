@@ -1,0 +1,260 @@
+{
+  "version": 1,
+  "meta": {
+    "title": "Stereo",
+    "description": "An arpeggio moved from side to side by a Pan, and a stereo cloud of the Granulator"
+  },
+  "tempo": 100,
+  "nodes": [
+    {
+      "id": "arpeggiator-1",
+      "type": "arpeggiator",
+      "name": "Arp",
+      "position": {
+        "x": 40,
+        "y": 40
+      },
+      "params": {
+        "source": "notes",
+        "division": "1/16",
+        "start": "grid",
+        "pattern": "up-down",
+        "chord": "m7",
+        "span": 2,
+        "gate": 0.4,
+        "length": 16,
+        "transpose": 0,
+        "rhythm": "x x x x x x x x x x x x x x x x",
+        "notes": "A4",
+        "octave": 0,
+        "keys": "off",
+        "launch": "bar"
+      }
+    },
+    {
+      "id": "oscillator-2",
+      "type": "oscillator",
+      "position": {
+        "x": 400,
+        "y": 40
+      },
+      "params": {
+        "waveform": "triangle",
+        "mode": "keyboard",
+        "frequency": 440,
+        "detune": 0
+      }
+    },
+    {
+      "id": "envelope-3",
+      "type": "envelope",
+      "position": {
+        "x": 400,
+        "y": 380
+      },
+      "params": {
+        "attack": 0.003,
+        "decay": 0.15,
+        "sustain": 0.2,
+        "release": 0.12,
+        "curve": "linear",
+        "spread": 0.01
+      }
+    },
+    {
+      "id": "gain-4",
+      "type": "gain",
+      "name": "VCA",
+      "position": {
+        "x": 760,
+        "y": 40
+      },
+      "params": {
+        "gain": 0
+      }
+    },
+    {
+      "id": "pan-5",
+      "type": "pan",
+      "name": "Auto-pan",
+      "position": {
+        "x": 1120,
+        "y": 40
+      },
+      "params": {
+        "pan": 0
+      }
+    },
+    {
+      "id": "lfo-6",
+      "type": "lfo",
+      "name": "Pan LFO",
+      "position": {
+        "x": 760,
+        "y": 380
+      },
+      "params": {
+        "waveform": "sine",
+        "sync": "1 bar",
+        "rate": 0.5
+      }
+    },
+    {
+      "id": "granulator-7",
+      "type": "granulator",
+      "name": "Cloud",
+      "position": {
+        "x": 1120,
+        "y": 300
+      },
+      "params": {
+        "position": 0.8,
+        "size": 180,
+        "density": 18,
+        "pitch": 12,
+        "spread": 0.6,
+        "mix": 1,
+        "freeze": "off"
+      }
+    },
+    {
+      "id": "mixer-8",
+      "type": "mixer",
+      "position": {
+        "x": 1480,
+        "y": 160
+      },
+      "params": {
+        "level": 0.7
+      }
+    },
+    {
+      "id": "output-9",
+      "type": "output",
+      "position": {
+        "x": 1840,
+        "y": 160
+      },
+      "params": {
+        "volume": 0.8,
+        "limiter": "on"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "id": "arpeggiator-1:pitch->oscillator-2:detune",
+      "source": {
+        "nodeId": "arpeggiator-1",
+        "port": "pitch"
+      },
+      "target": {
+        "nodeId": "oscillator-2",
+        "port": "detune"
+      }
+    },
+    {
+      "id": "arpeggiator-1:gate->envelope-3:gate",
+      "source": {
+        "nodeId": "arpeggiator-1",
+        "port": "gate"
+      },
+      "target": {
+        "nodeId": "envelope-3",
+        "port": "gate"
+      }
+    },
+    {
+      "id": "oscillator-2:audio->gain-4:audio",
+      "source": {
+        "nodeId": "oscillator-2",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "gain-4",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "envelope-3:out->gain-4:gain",
+      "source": {
+        "nodeId": "envelope-3",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "gain-4",
+        "port": "gain"
+      }
+    },
+    {
+      "id": "gain-4:audio->pan-5:audio",
+      "source": {
+        "nodeId": "gain-4",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "pan-5",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "lfo-6:out->pan-5:pan",
+      "source": {
+        "nodeId": "lfo-6",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "pan-5",
+        "port": "pan"
+      },
+      "amount": 0.9
+    },
+    {
+      "id": "pan-5:audio->granulator-7:audio",
+      "source": {
+        "nodeId": "pan-5",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "granulator-7",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "pan-5:audio->mixer-8:audio",
+      "source": {
+        "nodeId": "pan-5",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "mixer-8",
+        "port": "audio"
+      },
+      "amount": 0.8
+    },
+    {
+      "id": "granulator-7:audio->mixer-8:audio",
+      "source": {
+        "nodeId": "granulator-7",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "mixer-8",
+        "port": "audio"
+      },
+      "amount": 0.5,
+      "pan": 0.4
+    },
+    {
+      "id": "mixer-8:audio->output-9:audio",
+      "source": {
+        "nodeId": "mixer-8",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "output-9",
+        "port": "audio"
+      }
+    }
+  ]
+}

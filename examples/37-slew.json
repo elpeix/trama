@@ -1,0 +1,213 @@
+{
+  "version": 1,
+  "meta": {
+    "title": "Slew",
+    "description": "A melody with big leaps through a Slew: notes rise almost at once and slide down"
+  },
+  "tempo": 96,
+  "nodes": [
+    {
+      "id": "sequencer-1",
+      "type": "sequencer",
+      "position": {
+        "x": 40,
+        "y": 40
+      },
+      "params": {
+        "division": "1/8",
+        "length": 16,
+        "gate": 0.9,
+        "glide": 60,
+        "octave": -1,
+        "root": "G",
+        "scale": "minor",
+        "chord": "off",
+        "keys": "off",
+        "launch": "bar",
+        "steps": "G4 - D5 - F5 G5 - D5 A5 - G4 - C6 A5 - F5"
+      }
+    },
+    {
+      "id": "slew-2",
+      "type": "slew",
+      "position": {
+        "x": 400,
+        "y": 40
+      },
+      "params": {
+        "rise": 0.06,
+        "fall": 0.5
+      }
+    },
+    {
+      "id": "oscillator-3",
+      "type": "oscillator",
+      "position": {
+        "x": 720,
+        "y": 40
+      },
+      "params": {
+        "waveform": "sawtooth",
+        "mode": "keyboard",
+        "frequency": 440,
+        "detune": 0
+      }
+    },
+    {
+      "id": "filter-4",
+      "type": "filter",
+      "position": {
+        "x": 1040,
+        "y": 40
+      },
+      "params": {
+        "type": "lowpass",
+        "frequency": 1800,
+        "Q": 3
+      }
+    },
+    {
+      "id": "gain-5",
+      "type": "gain",
+      "position": {
+        "x": 1360,
+        "y": 40
+      },
+      "params": {
+        "gain": 0
+      }
+    },
+    {
+      "id": "envelope-6",
+      "type": "envelope",
+      "position": {
+        "x": 1040,
+        "y": 320
+      },
+      "params": {
+        "attack": 0.02,
+        "decay": 0.3,
+        "sustain": 0.7,
+        "release": 0.25,
+        "curve": "exp",
+        "spread": 0.01
+      }
+    },
+    {
+      "id": "delay-7",
+      "type": "delay",
+      "position": {
+        "x": 1680,
+        "y": 40
+      },
+      "params": {
+        "sync": "3/16",
+        "time": 0.4,
+        "feedback": 0.35,
+        "mix": 0.25
+      }
+    },
+    {
+      "id": "output-8",
+      "type": "output",
+      "position": {
+        "x": 2000,
+        "y": 40
+      },
+      "params": {
+        "volume": 0.8,
+        "limiter": "on"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "id": "sequencer-1:pitch->slew-2:in",
+      "source": {
+        "nodeId": "sequencer-1",
+        "port": "pitch"
+      },
+      "target": {
+        "nodeId": "slew-2",
+        "port": "in"
+      }
+    },
+    {
+      "id": "slew-2:out->oscillator-3:detune",
+      "source": {
+        "nodeId": "slew-2",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "oscillator-3",
+        "port": "detune"
+      }
+    },
+    {
+      "id": "sequencer-1:gate->envelope-6:gate",
+      "source": {
+        "nodeId": "sequencer-1",
+        "port": "gate"
+      },
+      "target": {
+        "nodeId": "envelope-6",
+        "port": "gate"
+      }
+    },
+    {
+      "id": "oscillator-3:audio->filter-4:audio",
+      "source": {
+        "nodeId": "oscillator-3",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "filter-4",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "filter-4:audio->gain-5:audio",
+      "source": {
+        "nodeId": "filter-4",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "gain-5",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "envelope-6:out->gain-5:gain",
+      "source": {
+        "nodeId": "envelope-6",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "gain-5",
+        "port": "gain"
+      }
+    },
+    {
+      "id": "gain-5:audio->delay-7:audio",
+      "source": {
+        "nodeId": "gain-5",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "delay-7",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "delay-7:audio->output-8:audio",
+      "source": {
+        "nodeId": "delay-7",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "output-8",
+        "port": "audio"
+      }
+    }
+  ]
+}

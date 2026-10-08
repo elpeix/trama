@@ -1,0 +1,168 @@
+{
+  "version": 1,
+  "tempo": 72,
+  "meta": {
+    "title": "Clarinet and oboe",
+    "description": "A clarinet melody in G minor on a Wind with a reed on a cylinder, and an oboe line above it on a Wind with a double reed on a cone and its body drawn: notes played while the one before is still held slur to it, the others are tongued, and each is blown as hard as it is played"
+  },
+  "nodes": [
+    {
+      "id": "clip-1",
+      "type": "clip",
+      "name": "Clarinet melody",
+      "position": {
+        "x": 40,
+        "y": 40
+      },
+      "params": {
+        "bars": 8,
+        "octave": 0,
+        "notes": "D4@0+0.9v80 G4@1+1.05v90 A#4@2+1.05v95 A4@3+0.9v85 G4@4+1.55v90 A4@5.5+0.55v85 A#4@6+1.05v95 C5@7+0.9v100 D5@8+3.05v110 C5@11+0.55v95 A#4@11.5+0.45v90 A4@12+1.05v90 G4@13+1.05v85 F#4@14+0.9v85 D4@15+0.9v75 G4@16+1.05v85 A#4@17+1.05v90 D5@18+1.55v105 D#5@19.5+0.55v110 D5@20+0.9v100 C5@21+1.05v95 A#4@22+1.05v90 A4@23+0.9v85 A#4@24+1.05v90 A4@25+1.05v85 G4@26+1.05v80 F#4@27+0.9v80 G4@28+3.15v70",
+        "launch": "bar"
+      }
+    },
+    {
+      "id": "wind-2",
+      "type": "wind",
+      "name": "Clarinet",
+      "position": {
+        "x": 400,
+        "y": 40
+      },
+      "params": {
+        "exciter": "reed",
+        "bore": "cylinder",
+        "breath": 0.7,
+        "detune": 0,
+        "noise": 0.2,
+        "brightness": 0.5,
+        "vibrato": 0,
+        "bell": 2000,
+        "flare": 0,
+        "attack": 0.5
+      }
+    },
+    {
+      "id": "reverb-3",
+      "type": "reverb",
+      "name": "Hall",
+      "position": {
+        "x": 760,
+        "y": 40
+      },
+      "params": {
+        "decay": 2.5,
+        "predelay": 0.02,
+        "tone": 6000,
+        "mix": 0.25
+      }
+    },
+    {
+      "id": "output-4",
+      "type": "output",
+      "position": {
+        "x": 1120,
+        "y": 40
+      },
+      "params": {
+        "volume": 0.9,
+        "limiter": "on"
+      }
+    },
+    {
+      "id": "clip-5",
+      "type": "clip",
+      "name": "Oboe line",
+      "position": {
+        "x": 40,
+        "y": 900
+      },
+      "params": {
+        "bars": 8,
+        "octave": 0,
+        "notes": "A#4@1+3.05v70 D#5@4+2.05v75 D5@6+2.05v72 F5@8+2.05v80 D5@10+1.8v72 C5@12+2.05v70 A4@14+1.8v66 D5@16+2.05v75 G5@18+2.05v85 F#5@20+2.05v80 A5@22+1.8v85 G5@24+2.05v78 F#5@26+1.8v72 D5@28+3.15v64",
+        "launch": "bar"
+      }
+    },
+    {
+      "id": "wind-6",
+      "type": "wind",
+      "name": "Oboe",
+      "position": {
+        "x": 400,
+        "y": 900
+      },
+      "params": {
+        "exciter": "double reed",
+        "bore": "cone",
+        "breath": 0.7,
+        "detune": 0,
+        "noise": 0.08,
+        "brightness": 0.82,
+        "vibrato": 0.38,
+        "bell": 4500,
+        "flare": 0.29,
+        "attack": 0.38,
+        "body": "0 0 0 0 0 0.5 0.5 1 1.5 1.5 2 3 4 5 7 9 11.5 15 15 11.5 8 6 5 7 9 7.5 5 3.5 2.5 2 1.5 1"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "id": "clip-1:notes->wind-2:notes",
+      "source": {
+        "nodeId": "clip-1",
+        "port": "notes"
+      },
+      "target": {
+        "nodeId": "wind-2",
+        "port": "notes"
+      }
+    },
+    {
+      "id": "wind-2:audio->reverb-3:audio",
+      "source": {
+        "nodeId": "wind-2",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "reverb-3",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "reverb-3:audio->output-4:audio",
+      "source": {
+        "nodeId": "reverb-3",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "output-4",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "clip-5:notes->wind-6:notes",
+      "source": {
+        "nodeId": "clip-5",
+        "port": "notes"
+      },
+      "target": {
+        "nodeId": "wind-6",
+        "port": "notes"
+      }
+    },
+    {
+      "id": "wind-6:audio->reverb-3:audio",
+      "source": {
+        "nodeId": "wind-6",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "reverb-3",
+        "port": "audio"
+      },
+      "amount": 0.8
+    }
+  ]
+}

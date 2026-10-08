@@ -1,0 +1,191 @@
+{
+  "version": 1,
+  "meta": {
+    "title": "Reverb",
+    "description": "A plucked melody in A minor inside a 4.5 s room, with a slow LFO on the tone of the tail"
+  },
+  "tempo": 84,
+  "nodes": [
+    {
+      "id": "sequencer-1",
+      "type": "sequencer",
+      "position": {
+        "x": 40,
+        "y": 40
+      },
+      "params": {
+        "division": "1/8",
+        "length": 16,
+        "gate": 0.3,
+        "glide": 60,
+        "octave": 0,
+        "root": "A",
+        "scale": "pentatonic minor",
+        "chord": "off",
+        "keys": "off",
+        "launch": "bar",
+        "steps": "A4 - - C5 - - E5 - D5 - - - G4 - - -"
+      }
+    },
+    {
+      "id": "oscillator-2",
+      "type": "oscillator",
+      "position": {
+        "x": 400,
+        "y": 40
+      },
+      "params": {
+        "waveform": "triangle",
+        "mode": "keyboard",
+        "frequency": 440,
+        "detune": 0
+      }
+    },
+    {
+      "id": "gain-3",
+      "type": "gain",
+      "position": {
+        "x": 720,
+        "y": 40
+      },
+      "params": {
+        "gain": 0
+      }
+    },
+    {
+      "id": "envelope-4",
+      "type": "envelope",
+      "position": {
+        "x": 400,
+        "y": 320
+      },
+      "params": {
+        "attack": 0.003,
+        "decay": 0.35,
+        "sustain": 0,
+        "release": 0.3,
+        "curve": "exp",
+        "spread": 0.01
+      }
+    },
+    {
+      "id": "lfo-5",
+      "type": "lfo",
+      "position": {
+        "x": 720,
+        "y": 320
+      },
+      "params": {
+        "waveform": "sine",
+        "sync": "4 bars",
+        "rate": 0.2
+      }
+    },
+    {
+      "id": "reverb-6",
+      "type": "reverb",
+      "position": {
+        "x": 1040,
+        "y": 40
+      },
+      "params": {
+        "decay": 4.5,
+        "predelay": 0.03,
+        "tone": 4000,
+        "mix": 0.45
+      }
+    },
+    {
+      "id": "output-7",
+      "type": "output",
+      "position": {
+        "x": 1360,
+        "y": 40
+      },
+      "params": {
+        "volume": 0.9,
+        "limiter": "on"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "id": "sequencer-1:pitch->oscillator-2:detune",
+      "source": {
+        "nodeId": "sequencer-1",
+        "port": "pitch"
+      },
+      "target": {
+        "nodeId": "oscillator-2",
+        "port": "detune"
+      }
+    },
+    {
+      "id": "sequencer-1:gate->envelope-4:gate",
+      "source": {
+        "nodeId": "sequencer-1",
+        "port": "gate"
+      },
+      "target": {
+        "nodeId": "envelope-4",
+        "port": "gate"
+      }
+    },
+    {
+      "id": "oscillator-2:audio->gain-3:audio",
+      "source": {
+        "nodeId": "oscillator-2",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "gain-3",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "envelope-4:out->gain-3:gain",
+      "source": {
+        "nodeId": "envelope-4",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "gain-3",
+        "port": "gain"
+      }
+    },
+    {
+      "id": "gain-3:audio->reverb-6:audio",
+      "source": {
+        "nodeId": "gain-3",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "reverb-6",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "lfo-5:out->reverb-6:tone",
+      "source": {
+        "nodeId": "lfo-5",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "reverb-6",
+        "port": "tone"
+      },
+      "amount": 0.4
+    },
+    {
+      "id": "reverb-6:audio->output-7:audio",
+      "source": {
+        "nodeId": "reverb-6",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "output-7",
+        "port": "audio"
+      }
+    }
+  ]
+}

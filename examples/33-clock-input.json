@@ -1,0 +1,222 @@
+{
+  "version": 1,
+  "meta": {
+    "title": "Clock input",
+    "description": "A low Seq, and a Clock dividing its notes by three to step a Seq of five steps"
+  },
+  "tempo": 100,
+  "nodes": [
+    {
+      "id": "sequencer-1",
+      "type": "sequencer",
+      "position": {
+        "x": 40,
+        "y": 40
+      },
+      "params": {
+        "division": "1/16",
+        "length": 16,
+        "gate": 0.3,
+        "glide": 0,
+        "octave": -1,
+        "root": "A",
+        "scale": "pentatonic minor",
+        "chord": "off",
+        "keys": "off",
+        "launch": "bar",
+        "steps": "A4 - A4 C5 - A4 - E5 A4 - G4 - A4 C5 - D5"
+      }
+    },
+    {
+      "id": "physicalModel-2",
+      "type": "physicalModel",
+      "position": {
+        "x": 400,
+        "y": 40
+      },
+      "params": {
+        "mode": "keyboard",
+        "frequency": 220,
+        "detune": 0,
+        "decay": 0.6,
+        "damp": 0.08,
+        "brightness": 0.35
+      }
+    },
+    {
+      "id": "clock-3",
+      "type": "clock",
+      "position": {
+        "x": 400,
+        "y": 420
+      },
+      "params": {
+        "gate": 0.5
+      }
+    },
+    {
+      "id": "sequencer-4",
+      "type": "sequencer",
+      "position": {
+        "x": 720,
+        "y": 420
+      },
+      "params": {
+        "division": "gate",
+        "length": 5,
+        "gate": 0.3,
+        "glide": 0,
+        "octave": 0,
+        "root": "A",
+        "scale": "pentatonic minor",
+        "chord": "off",
+        "keys": "off",
+        "launch": "bar",
+        "steps": "E5 G5 A5 C6 D6 - - - - - - - - - - -"
+      }
+    },
+    {
+      "id": "physicalModel-5",
+      "type": "physicalModel",
+      "position": {
+        "x": 1080,
+        "y": 420
+      },
+      "params": {
+        "mode": "keyboard",
+        "frequency": 220,
+        "detune": 0,
+        "decay": 2.5,
+        "damp": 0.08,
+        "brightness": 0.7
+      }
+    },
+    {
+      "id": "reverb-6",
+      "type": "reverb",
+      "position": {
+        "x": 1080,
+        "y": 40
+      },
+      "params": {
+        "decay": 2.5,
+        "predelay": 0.02,
+        "tone": 6000,
+        "mix": 0.3
+      }
+    },
+    {
+      "id": "output-7",
+      "type": "output",
+      "position": {
+        "x": 1400,
+        "y": 40
+      },
+      "params": {
+        "volume": 0.8,
+        "limiter": "on"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "id": "sequencer-1:pitch->physicalModel-2:detune",
+      "source": {
+        "nodeId": "sequencer-1",
+        "port": "pitch"
+      },
+      "target": {
+        "nodeId": "physicalModel-2",
+        "port": "detune"
+      }
+    },
+    {
+      "id": "sequencer-1:gate->physicalModel-2:gate",
+      "source": {
+        "nodeId": "sequencer-1",
+        "port": "gate"
+      },
+      "target": {
+        "nodeId": "physicalModel-2",
+        "port": "gate"
+      }
+    },
+    {
+      "id": "sequencer-1:gate->clock-3:gate",
+      "source": {
+        "nodeId": "sequencer-1",
+        "port": "gate"
+      },
+      "target": {
+        "nodeId": "clock-3",
+        "port": "gate"
+      }
+    },
+    {
+      "id": "clock-3:eighth->sequencer-4:clock",
+      "source": {
+        "nodeId": "clock-3",
+        "port": "eighth"
+      },
+      "target": {
+        "nodeId": "sequencer-4",
+        "port": "clock"
+      }
+    },
+    {
+      "id": "sequencer-4:pitch->physicalModel-5:detune",
+      "source": {
+        "nodeId": "sequencer-4",
+        "port": "pitch"
+      },
+      "target": {
+        "nodeId": "physicalModel-5",
+        "port": "detune"
+      }
+    },
+    {
+      "id": "sequencer-4:gate->physicalModel-5:gate",
+      "source": {
+        "nodeId": "sequencer-4",
+        "port": "gate"
+      },
+      "target": {
+        "nodeId": "physicalModel-5",
+        "port": "gate"
+      }
+    },
+    {
+      "id": "physicalModel-2:audio->reverb-6:audio",
+      "source": {
+        "nodeId": "physicalModel-2",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "reverb-6",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "physicalModel-5:audio->reverb-6:audio",
+      "source": {
+        "nodeId": "physicalModel-5",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "reverb-6",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "reverb-6:audio->output-7:audio",
+      "source": {
+        "nodeId": "reverb-6",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "output-7",
+        "port": "audio"
+      }
+    }
+  ]
+}

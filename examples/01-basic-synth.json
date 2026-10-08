@@ -1,0 +1,167 @@
+{
+  "version": 1,
+  "meta": {
+    "title": "Basic synth",
+    "description": "A subtractive synth with an envelope on the volume and the filter"
+  },
+  "tempo": 120,
+  "nodes": [
+    {
+      "id": "keyboard-1",
+      "type": "keyboard",
+      "position": {
+        "x": 40,
+        "y": 320
+      },
+      "params": {
+        "transpose": 0
+      }
+    },
+    {
+      "id": "oscillator-2",
+      "type": "oscillator",
+      "position": {
+        "x": 360,
+        "y": 40
+      },
+      "params": {
+        "waveform": "sawtooth",
+        "mode": "keyboard",
+        "frequency": 440,
+        "detune": 0
+      }
+    },
+    {
+      "id": "filter-3",
+      "type": "filter",
+      "position": {
+        "x": 680,
+        "y": 40
+      },
+      "params": {
+        "type": "lowpass",
+        "frequency": 400,
+        "Q": 4
+      }
+    },
+    {
+      "id": "gain-4",
+      "type": "gain",
+      "position": {
+        "x": 1000,
+        "y": 40
+      },
+      "params": {
+        "gain": 0
+      }
+    },
+    {
+      "id": "envelope-5",
+      "type": "envelope",
+      "position": {
+        "x": 360,
+        "y": 320
+      },
+      "params": {
+        "attack": 0.01,
+        "decay": 0.3,
+        "sustain": 0.6,
+        "release": 0.5,
+        "curve": "linear",
+        "spread": 0.01
+      }
+    },
+    {
+      "id": "output-6",
+      "type": "output",
+      "position": {
+        "x": 1320,
+        "y": 40
+      },
+      "params": {
+        "volume": 1,
+        "limiter": "on"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "id": "keyboard-1:pitch->oscillator-2:detune",
+      "source": {
+        "nodeId": "keyboard-1",
+        "port": "pitch"
+      },
+      "target": {
+        "nodeId": "oscillator-2",
+        "port": "detune"
+      }
+    },
+    {
+      "id": "keyboard-1:gate->envelope-5:gate",
+      "source": {
+        "nodeId": "keyboard-1",
+        "port": "gate"
+      },
+      "target": {
+        "nodeId": "envelope-5",
+        "port": "gate"
+      }
+    },
+    {
+      "id": "oscillator-2:audio->filter-3:audio",
+      "source": {
+        "nodeId": "oscillator-2",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "filter-3",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "filter-3:audio->gain-4:audio",
+      "source": {
+        "nodeId": "filter-3",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "gain-4",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "envelope-5:out->gain-4:gain",
+      "source": {
+        "nodeId": "envelope-5",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "gain-4",
+        "port": "gain"
+      }
+    },
+    {
+      "id": "envelope-5:out->filter-3:frequency",
+      "source": {
+        "nodeId": "envelope-5",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "filter-3",
+        "port": "frequency"
+      },
+      "amount": 0.4
+    },
+    {
+      "id": "gain-4:audio->output-6:audio",
+      "source": {
+        "nodeId": "gain-4",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "output-6",
+        "port": "audio"
+      }
+    }
+  ]
+}

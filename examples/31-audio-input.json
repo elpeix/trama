@@ -1,0 +1,95 @@
+{
+  "version": 1,
+  "meta": {
+    "title": "Audio input",
+    "description": "The microphone, doubled a fifth up by the Pitch Shifter, in a Reverb"
+  },
+  "tempo": 120,
+  "nodes": [
+    {
+      "id": "audioInput-1",
+      "type": "audioInput",
+      "position": {
+        "x": 40,
+        "y": 40
+      },
+      "params": {
+        "gain": 1
+      }
+    },
+    {
+      "id": "pitchShifter-2",
+      "type": "pitchShifter",
+      "position": {
+        "x": 400,
+        "y": 40
+      },
+      "params": {
+        "shift": 7,
+        "window": 60,
+        "mix": 0.5
+      }
+    },
+    {
+      "id": "reverb-3",
+      "type": "reverb",
+      "position": {
+        "x": 720,
+        "y": 40
+      },
+      "params": {
+        "decay": 2.5,
+        "predelay": 0.03,
+        "tone": 6000,
+        "mix": 0.35
+      }
+    },
+    {
+      "id": "output-4",
+      "type": "output",
+      "position": {
+        "x": 1040,
+        "y": 40
+      },
+      "params": {
+        "volume": 0.8,
+        "limiter": "on"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "id": "audioInput-1:audio->pitchShifter-2:audio",
+      "source": {
+        "nodeId": "audioInput-1",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "pitchShifter-2",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "pitchShifter-2:audio->reverb-3:audio",
+      "source": {
+        "nodeId": "pitchShifter-2",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "reverb-3",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "reverb-3:audio->output-4:audio",
+      "source": {
+        "nodeId": "reverb-3",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "output-4",
+        "port": "audio"
+      }
+    }
+  ]
+}

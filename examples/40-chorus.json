@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "meta": {
+    "title": "Chorus",
+    "description": "Slow saw chords in A minor made wide by a three-voice Chorus, in a room"
+  },
+  "tempo": 84,
+  "nodes": [
+    {
+      "id": "sequencer-1",
+      "type": "sequencer",
+      "position": {
+        "x": 40,
+        "y": 40
+      },
+      "params": {
+        "division": "1/4",
+        "length": 16,
+        "gate": 0.9,
+        "glide": 60,
+        "octave": 0,
+        "root": "A",
+        "scale": "minor",
+        "chord": "off",
+        "keys": "off",
+        "launch": "bar",
+        "steps": "A4 _ _ _ F4 _ _ _ C5 _ _ _ G4 _ _ _"
+      }
+    },
+    {
+      "id": "oscillator-2",
+      "type": "oscillator",
+      "position": {
+        "x": 400,
+        "y": 40
+      },
+      "params": {
+        "waveform": "sawtooth",
+        "mode": "keyboard",
+        "frequency": 440,
+        "detune": 0
+      }
+    },
+    {
+      "id": "filter-3",
+      "type": "filter",
+      "position": {
+        "x": 720,
+        "y": 40
+      },
+      "params": {
+        "type": "lowpass",
+        "frequency": 1400,
+        "Q": 1
+      }
+    },
+    {
+      "id": "gain-4",
+      "type": "gain",
+      "position": {
+        "x": 1040,
+        "y": 40
+      },
+      "params": {
+        "gain": 0
+      }
+    },
+    {
+      "id": "chorus-5",
+      "type": "chorus",
+      "position": {
+        "x": 1360,
+        "y": 40
+      },
+      "params": {
+        "rate": 0.6,
+        "depth": 0.6,
+        "delay": 20,
+        "voices": 3,
+        "mix": 0.5
+      }
+    },
+    {
+      "id": "reverb-6",
+      "type": "reverb",
+      "position": {
+        "x": 1680,
+        "y": 40
+      },
+      "params": {
+        "decay": 3,
+        "predelay": 0.02,
+        "tone": 5000,
+        "mix": 0.3
+      }
+    },
+    {
+      "id": "envelope-7",
+      "type": "envelope",
+      "position": {
+        "x": 720,
+        "y": 320
+      },
+      "params": {
+        "attack": 0.3,
+        "decay": 0.5,
+        "sustain": 0.8,
+        "release": 1.2,
+        "curve": "exp",
+        "spread": 0.01
+      }
+    },
+    {
+      "id": "output-8",
+      "type": "output",
+      "position": {
+        "x": 2000,
+        "y": 40
+      },
+      "params": {
+        "volume": 0.7,
+        "limiter": "on"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "id": "sequencer-1:pitch->oscillator-2:detune",
+      "source": {
+        "nodeId": "sequencer-1",
+        "port": "pitch"
+      },
+      "target": {
+        "nodeId": "oscillator-2",
+        "port": "detune"
+      }
+    },
+    {
+      "id": "sequencer-1:gate->envelope-7:gate",
+      "source": {
+        "nodeId": "sequencer-1",
+        "port": "gate"
+      },
+      "target": {
+        "nodeId": "envelope-7",
+        "port": "gate"
+      }
+    },
+    {
+      "id": "oscillator-2:audio->filter-3:audio",
+      "source": {
+        "nodeId": "oscillator-2",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "filter-3",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "filter-3:audio->gain-4:audio",
+      "source": {
+        "nodeId": "filter-3",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "gain-4",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "envelope-7:out->gain-4:gain",
+      "source": {
+        "nodeId": "envelope-7",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "gain-4",
+        "port": "gain"
+      }
+    },
+    {
+      "id": "gain-4:audio->chorus-5:audio",
+      "source": {
+        "nodeId": "gain-4",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "chorus-5",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "chorus-5:audio->reverb-6:audio",
+      "source": {
+        "nodeId": "chorus-5",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "reverb-6",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "reverb-6:audio->output-8:audio",
+      "source": {
+        "nodeId": "reverb-6",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "output-8",
+        "port": "audio"
+      }
+    }
+  ]
+}

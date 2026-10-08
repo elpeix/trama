@@ -1,0 +1,249 @@
+{
+  "version": 1,
+  "meta": {
+    "title": "Math",
+    "description": "A Math multiplies the envelope of each note by an LFO: the filter shakes on the attack and calms down"
+  },
+  "tempo": 112,
+  "nodes": [
+    {
+      "id": "sequencer-1",
+      "type": "sequencer",
+      "position": {
+        "x": 40,
+        "y": 40
+      },
+      "params": {
+        "division": "1/8",
+        "length": 16,
+        "gate": 0.7,
+        "glide": 60,
+        "octave": -1,
+        "root": "E",
+        "scale": "minor",
+        "chord": "off",
+        "keys": "off",
+        "launch": "bar",
+        "steps": "E4 - E4 G4 E4 - B4 A4 E4 - E4 D5 E4 - G4 B4"
+      }
+    },
+    {
+      "id": "oscillator-2",
+      "type": "oscillator",
+      "position": {
+        "x": 400,
+        "y": 40
+      },
+      "params": {
+        "waveform": "sawtooth",
+        "mode": "keyboard",
+        "frequency": 440,
+        "detune": 0
+      }
+    },
+    {
+      "id": "filter-3",
+      "type": "filter",
+      "position": {
+        "x": 720,
+        "y": 40
+      },
+      "params": {
+        "type": "lowpass",
+        "frequency": 500,
+        "Q": 8
+      }
+    },
+    {
+      "id": "gain-4",
+      "type": "gain",
+      "position": {
+        "x": 1040,
+        "y": 40
+      },
+      "params": {
+        "gain": 0
+      }
+    },
+    {
+      "id": "envelope-5",
+      "type": "envelope",
+      "position": {
+        "x": 400,
+        "y": 320
+      },
+      "params": {
+        "attack": 0.005,
+        "decay": 0.35,
+        "sustain": 0.5,
+        "release": 0.12,
+        "curve": "exp",
+        "spread": 0.01
+      }
+    },
+    {
+      "id": "lfo-6",
+      "type": "lfo",
+      "position": {
+        "x": 400,
+        "y": 560
+      },
+      "params": {
+        "waveform": "sine",
+        "sync": "1/16",
+        "rate": 4
+      }
+    },
+    {
+      "id": "math-7",
+      "type": "math",
+      "position": {
+        "x": 720,
+        "y": 320
+      },
+      "params": {
+        "operation": "multiply",
+        "b": 0.3
+      }
+    },
+    {
+      "id": "delay-8",
+      "type": "delay",
+      "position": {
+        "x": 1360,
+        "y": 40
+      },
+      "params": {
+        "sync": "3/16",
+        "time": 0.4,
+        "feedback": 0.3,
+        "mix": 0.2
+      }
+    },
+    {
+      "id": "output-9",
+      "type": "output",
+      "position": {
+        "x": 1680,
+        "y": 40
+      },
+      "params": {
+        "volume": 0.8,
+        "limiter": "on"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "id": "sequencer-1:pitch->oscillator-2:detune",
+      "source": {
+        "nodeId": "sequencer-1",
+        "port": "pitch"
+      },
+      "target": {
+        "nodeId": "oscillator-2",
+        "port": "detune"
+      }
+    },
+    {
+      "id": "sequencer-1:gate->envelope-5:gate",
+      "source": {
+        "nodeId": "sequencer-1",
+        "port": "gate"
+      },
+      "target": {
+        "nodeId": "envelope-5",
+        "port": "gate"
+      }
+    },
+    {
+      "id": "oscillator-2:audio->filter-3:audio",
+      "source": {
+        "nodeId": "oscillator-2",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "filter-3",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "filter-3:audio->gain-4:audio",
+      "source": {
+        "nodeId": "filter-3",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "gain-4",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "envelope-5:out->gain-4:gain",
+      "source": {
+        "nodeId": "envelope-5",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "gain-4",
+        "port": "gain"
+      }
+    },
+    {
+      "id": "envelope-5:out->math-7:a",
+      "source": {
+        "nodeId": "envelope-5",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "math-7",
+        "port": "a"
+      }
+    },
+    {
+      "id": "lfo-6:out->math-7:b",
+      "source": {
+        "nodeId": "lfo-6",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "math-7",
+        "port": "b"
+      }
+    },
+    {
+      "id": "math-7:out->filter-3:frequency",
+      "source": {
+        "nodeId": "math-7",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "filter-3",
+        "port": "frequency"
+      },
+      "amount": 0.6
+    },
+    {
+      "id": "gain-4:audio->delay-8:audio",
+      "source": {
+        "nodeId": "gain-4",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "delay-8",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "delay-8:audio->output-9:audio",
+      "source": {
+        "nodeId": "delay-8",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "output-9",
+        "port": "audio"
+      }
+    }
+  ]
+}

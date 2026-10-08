@@ -1,0 +1,502 @@
+{
+  "version": 1,
+  "tempo": 120,
+  "nodes": [
+    {
+      "id": "clip-1",
+      "type": "clip",
+      "name": "Pad notes",
+      "position": {
+        "x": 40,
+        "y": 40
+      },
+      "params": {
+        "bars": 4,
+        "octave": 0,
+        "notes": "A3@0+4 F3@4+4 C4@8+4 G3@12+4",
+        "launch": "bar"
+      }
+    },
+    {
+      "id": "vco-2",
+      "type": "vco",
+      "name": "Supersaw",
+      "position": {
+        "x": 400,
+        "y": 40
+      },
+      "params": {
+        "waveform": "sawtooth",
+        "mode": "keyboard",
+        "frequency": 440,
+        "detune": 0,
+        "width": 0.5,
+        "voices": 7,
+        "spread": 30,
+        "drift": 0.3
+      }
+    },
+    {
+      "id": "filter-3",
+      "type": "filter",
+      "position": {
+        "x": 760,
+        "y": 40
+      },
+      "params": {
+        "type": "lowpass",
+        "frequency": 2200,
+        "Q": 1
+      }
+    },
+    {
+      "id": "envelope-4",
+      "type": "envelope",
+      "position": {
+        "x": 760,
+        "y": 380
+      },
+      "params": {
+        "attack": 0.4,
+        "decay": 0.5,
+        "sustain": 0.8,
+        "release": 1.2,
+        "curve": "linear",
+        "spread": 0.01
+      }
+    },
+    {
+      "id": "gain-5",
+      "type": "gain",
+      "name": "Pad VCA",
+      "position": {
+        "x": 1120,
+        "y": 40
+      },
+      "params": {
+        "gain": 0
+      }
+    },
+    {
+      "id": "sequencer-6",
+      "type": "sequencer",
+      "name": "Bass",
+      "position": {
+        "x": 40,
+        "y": 760
+      },
+      "params": {
+        "division": "1/8",
+        "length": 16,
+        "gate": 0.5,
+        "glide": 0,
+        "octave": -2,
+        "root": "A",
+        "scale": "minor",
+        "chord": "off",
+        "keys": "off",
+        "launch": "bar",
+        "steps": "A4 A4 A5 A4 F4 F4 F5 F4 C5 C5 C6 C5 G4 G4 G5 G4"
+      }
+    },
+    {
+      "id": "lfo-7",
+      "type": "lfo",
+      "name": "PWM",
+      "position": {
+        "x": 400,
+        "y": 1120
+      },
+      "params": {
+        "waveform": "sine",
+        "sync": "free",
+        "rate": 0.4
+      }
+    },
+    {
+      "id": "vco-8",
+      "type": "vco",
+      "name": "Pulse bass",
+      "position": {
+        "x": 400,
+        "y": 760
+      },
+      "params": {
+        "waveform": "square",
+        "mode": "keyboard",
+        "frequency": 440,
+        "detune": 0,
+        "width": 0.5,
+        "voices": 1,
+        "spread": 20,
+        "drift": 0.2
+      }
+    },
+    {
+      "id": "filter-9",
+      "type": "filter",
+      "position": {
+        "x": 760,
+        "y": 760
+      },
+      "params": {
+        "type": "lowpass",
+        "frequency": 900,
+        "Q": 4
+      }
+    },
+    {
+      "id": "envelope-10",
+      "type": "envelope",
+      "position": {
+        "x": 760,
+        "y": 1120
+      },
+      "params": {
+        "attack": 0.002,
+        "decay": 0.2,
+        "sustain": 0.4,
+        "release": 0.1,
+        "curve": "linear",
+        "spread": 0.01
+      }
+    },
+    {
+      "id": "gain-11",
+      "type": "gain",
+      "name": "Bass VCA",
+      "position": {
+        "x": 1120,
+        "y": 760
+      },
+      "params": {
+        "gain": 0
+      }
+    },
+    {
+      "id": "vco-12",
+      "type": "vco",
+      "name": "Sync voice",
+      "position": {
+        "x": 400,
+        "y": 1480
+      },
+      "params": {
+        "waveform": "sawtooth",
+        "mode": "keyboard",
+        "frequency": 440,
+        "detune": 1200,
+        "width": 0.5,
+        "voices": 1,
+        "spread": 20,
+        "drift": 0
+      }
+    },
+    {
+      "id": "envelope-13",
+      "type": "envelope",
+      "name": "Sweep",
+      "position": {
+        "x": 40,
+        "y": 1480
+      },
+      "params": {
+        "attack": 0.002,
+        "decay": 0.25,
+        "sustain": 0,
+        "release": 0.1,
+        "curve": "linear",
+        "spread": 0.01
+      }
+    },
+    {
+      "id": "gain-14",
+      "type": "gain",
+      "name": "Sync VCA",
+      "position": {
+        "x": 760,
+        "y": 1480
+      },
+      "params": {
+        "gain": 0
+      }
+    },
+    {
+      "id": "mixer-15",
+      "type": "mixer",
+      "position": {
+        "x": 1480,
+        "y": 400
+      },
+      "params": {
+        "level": 1
+      }
+    },
+    {
+      "id": "output-16",
+      "type": "output",
+      "position": {
+        "x": 1840,
+        "y": 400
+      },
+      "params": {
+        "volume": 0.7,
+        "limiter": "on"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "id": "clip-1:pitch->vco-2:detune",
+      "source": {
+        "nodeId": "clip-1",
+        "port": "pitch"
+      },
+      "target": {
+        "nodeId": "vco-2",
+        "port": "detune"
+      }
+    },
+    {
+      "id": "clip-1:gate->envelope-4:gate",
+      "source": {
+        "nodeId": "clip-1",
+        "port": "gate"
+      },
+      "target": {
+        "nodeId": "envelope-4",
+        "port": "gate"
+      }
+    },
+    {
+      "id": "vco-2:audio->filter-3:audio",
+      "source": {
+        "nodeId": "vco-2",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "filter-3",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "filter-3:audio->gain-5:audio",
+      "source": {
+        "nodeId": "filter-3",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "gain-5",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "envelope-4:out->gain-5:gain",
+      "source": {
+        "nodeId": "envelope-4",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "gain-5",
+        "port": "gain"
+      }
+    },
+    {
+      "id": "sequencer-6:pitch->vco-8:detune",
+      "source": {
+        "nodeId": "sequencer-6",
+        "port": "pitch"
+      },
+      "target": {
+        "nodeId": "vco-8",
+        "port": "detune"
+      }
+    },
+    {
+      "id": "sequencer-6:pitch->vco-12:detune",
+      "source": {
+        "nodeId": "sequencer-6",
+        "port": "pitch"
+      },
+      "target": {
+        "nodeId": "vco-12",
+        "port": "detune"
+      }
+    },
+    {
+      "id": "sequencer-6:gate->envelope-10:gate",
+      "source": {
+        "nodeId": "sequencer-6",
+        "port": "gate"
+      },
+      "target": {
+        "nodeId": "envelope-10",
+        "port": "gate"
+      }
+    },
+    {
+      "id": "sequencer-6:gate->envelope-13:gate",
+      "source": {
+        "nodeId": "sequencer-6",
+        "port": "gate"
+      },
+      "target": {
+        "nodeId": "envelope-13",
+        "port": "gate"
+      }
+    },
+    {
+      "id": "lfo-7:out->vco-8:width",
+      "source": {
+        "nodeId": "lfo-7",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "vco-8",
+        "port": "width"
+      },
+      "amount": 0.8
+    },
+    {
+      "id": "vco-8:audio->filter-9:audio",
+      "source": {
+        "nodeId": "vco-8",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "filter-9",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "vco-8:audio->vco-12:sync",
+      "source": {
+        "nodeId": "vco-8",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "vco-12",
+        "port": "sync"
+      }
+    },
+    {
+      "id": "filter-9:audio->gain-11:audio",
+      "source": {
+        "nodeId": "filter-9",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "gain-11",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "envelope-10:out->gain-11:gain",
+      "source": {
+        "nodeId": "envelope-10",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "gain-11",
+        "port": "gain"
+      }
+    },
+    {
+      "id": "envelope-10:out->filter-9:frequency",
+      "source": {
+        "nodeId": "envelope-10",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "filter-9",
+        "port": "frequency"
+      },
+      "amount": 0.4
+    },
+    {
+      "id": "envelope-13:out->vco-12:frequency",
+      "source": {
+        "nodeId": "envelope-13",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "vco-12",
+        "port": "frequency"
+      },
+      "amount": 0.5
+    },
+    {
+      "id": "vco-12:audio->gain-14:audio",
+      "source": {
+        "nodeId": "vco-12",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "gain-14",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "envelope-10:out->gain-14:gain",
+      "source": {
+        "nodeId": "envelope-10",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "gain-14",
+        "port": "gain"
+      }
+    },
+    {
+      "id": "gain-5:audio->mixer-15:audio",
+      "source": {
+        "nodeId": "gain-5",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "mixer-15",
+        "port": "audio"
+      },
+      "amount": 0.5
+    },
+    {
+      "id": "gain-11:audio->mixer-15:audio",
+      "source": {
+        "nodeId": "gain-11",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "mixer-15",
+        "port": "audio"
+      },
+      "amount": 0.8
+    },
+    {
+      "id": "gain-14:audio->mixer-15:audio",
+      "source": {
+        "nodeId": "gain-14",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "mixer-15",
+        "port": "audio"
+      },
+      "amount": 0.3
+    },
+    {
+      "id": "mixer-15:audio->output-16:audio",
+      "source": {
+        "nodeId": "mixer-15",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "output-16",
+        "port": "audio"
+      }
+    }
+  ],
+  "meta": {
+    "title": "VCO",
+    "description": "A supersaw pad of seven detuned voices, a bass whose pulse width an LFO moves, and a voice in hard sync with it, swept by its envelope"
+  }
+}

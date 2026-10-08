@@ -1,0 +1,161 @@
+{
+  "version": 1,
+  "meta": {
+    "title": "Clip",
+    "description": "A four-bar melody in A minor with notes of different lengths, drawn on the piano roll of a Clip"
+  },
+  "tempo": 96,
+  "nodes": [
+    {
+      "id": "clip-1",
+      "type": "clip",
+      "name": "Melody",
+      "position": {
+        "x": 40,
+        "y": 40
+      },
+      "params": {
+        "bars": 4,
+        "octave": 0,
+        "notes": "A4@0+1.5 C5@1.5+0.5 E5@2+1 D5@3+1 C5@4+0.75 B4@4.75+0.25 A4@5+2 E4@7+1 F4@8+1.5 A4@9.5+0.5 C5@10+1 B4@11+1 A4@12+3 G#4@15+1",
+        "launch": "bar"
+      }
+    },
+    {
+      "id": "oscillator-2",
+      "type": "oscillator",
+      "position": {
+        "x": 400,
+        "y": 40
+      },
+      "params": {
+        "waveform": "triangle",
+        "mode": "keyboard",
+        "frequency": 440,
+        "detune": 0
+      }
+    },
+    {
+      "id": "envelope-3",
+      "type": "envelope",
+      "position": {
+        "x": 400,
+        "y": 380
+      },
+      "params": {
+        "attack": 0.02,
+        "decay": 0.3,
+        "sustain": 0.7,
+        "release": 0.3,
+        "curve": "linear",
+        "spread": 0.01
+      }
+    },
+    {
+      "id": "gain-4",
+      "type": "gain",
+      "name": "Melody VCA",
+      "position": {
+        "x": 760,
+        "y": 40
+      },
+      "params": {
+        "gain": 0
+      }
+    },
+    {
+      "id": "delay-5",
+      "type": "delay",
+      "position": {
+        "x": 1120,
+        "y": 40
+      },
+      "params": {
+        "sync": "3/8",
+        "time": 0.5,
+        "feedback": 0.3,
+        "mix": 0.25
+      }
+    },
+    {
+      "id": "output-6",
+      "type": "output",
+      "position": {
+        "x": 1480,
+        "y": 40
+      },
+      "params": {
+        "volume": 0.8,
+        "limiter": "on"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "id": "clip-1:pitch->oscillator-2:detune",
+      "source": {
+        "nodeId": "clip-1",
+        "port": "pitch"
+      },
+      "target": {
+        "nodeId": "oscillator-2",
+        "port": "detune"
+      }
+    },
+    {
+      "id": "clip-1:gate->envelope-3:gate",
+      "source": {
+        "nodeId": "clip-1",
+        "port": "gate"
+      },
+      "target": {
+        "nodeId": "envelope-3",
+        "port": "gate"
+      }
+    },
+    {
+      "id": "oscillator-2:audio->gain-4:audio",
+      "source": {
+        "nodeId": "oscillator-2",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "gain-4",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "envelope-3:out->gain-4:gain",
+      "source": {
+        "nodeId": "envelope-3",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "gain-4",
+        "port": "gain"
+      }
+    },
+    {
+      "id": "gain-4:audio->delay-5:audio",
+      "source": {
+        "nodeId": "gain-4",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "delay-5",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "delay-5:audio->output-6:audio",
+      "source": {
+        "nodeId": "delay-5",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "output-6",
+        "port": "audio"
+      }
+    }
+  ]
+}

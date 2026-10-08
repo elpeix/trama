@@ -1,0 +1,214 @@
+{
+  "version": 1,
+  "tempo": 96,
+  "nodes": [
+    {
+      "id": "clip-1",
+      "type": "clip",
+      "name": "Bell melody",
+      "position": {
+        "x": 40,
+        "y": 40
+      },
+      "params": {
+        "bars": 4,
+        "octave": 0,
+        "notes": "E4@0+2 G4@2+2 A4@4+4 D4@8+2 E4@10+2 C4@12+4",
+        "launch": "bar"
+      }
+    },
+    {
+      "id": "modal-2",
+      "type": "modal",
+      "name": "Tubular bells",
+      "position": {
+        "x": 400,
+        "y": 40
+      },
+      "params": {
+        "model": "tubular",
+        "mode": "keyboard",
+        "frequency": 440,
+        "detune": 0,
+        "decay": 6,
+        "brightness": 0.5,
+        "hit": 0.8,
+        "stretch": 0
+      }
+    },
+    {
+      "id": "sequencer-3",
+      "type": "sequencer",
+      "name": "Arpeggio",
+      "position": {
+        "x": 40,
+        "y": 500
+      },
+      "params": {
+        "division": "1/8",
+        "length": 16,
+        "gate": 0.5,
+        "glide": 0,
+        "octave": 0,
+        "root": "A",
+        "scale": "pentatonic minor",
+        "chord": "off",
+        "keys": "off",
+        "launch": "bar",
+        "steps": "A4 C5 E5 A5 G5 E5 C5 E5 D5 E5 G5 A5 G5 E5 D5 C5"
+      }
+    },
+    {
+      "id": "modal-4",
+      "type": "modal",
+      "name": "Marimba",
+      "position": {
+        "x": 400,
+        "y": 500
+      },
+      "params": {
+        "model": "marimba",
+        "mode": "keyboard",
+        "frequency": 440,
+        "detune": 0,
+        "decay": 1.2,
+        "brightness": 0.4,
+        "hit": 0.6,
+        "stretch": 0
+      }
+    },
+    {
+      "id": "mixer-5",
+      "type": "mixer",
+      "position": {
+        "x": 760,
+        "y": 260
+      },
+      "params": {
+        "level": 1
+      }
+    },
+    {
+      "id": "reverb-6",
+      "type": "reverb",
+      "position": {
+        "x": 1120,
+        "y": 260
+      },
+      "params": {
+        "decay": 4,
+        "predelay": 0.02,
+        "tone": 6000,
+        "mix": 0.35
+      }
+    },
+    {
+      "id": "output-7",
+      "type": "output",
+      "position": {
+        "x": 1480,
+        "y": 260
+      },
+      "params": {
+        "volume": 0.8,
+        "limiter": "on"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "id": "clip-1:pitch->modal-2:detune",
+      "source": {
+        "nodeId": "clip-1",
+        "port": "pitch"
+      },
+      "target": {
+        "nodeId": "modal-2",
+        "port": "detune"
+      }
+    },
+    {
+      "id": "clip-1:gate->modal-2:gate",
+      "source": {
+        "nodeId": "clip-1",
+        "port": "gate"
+      },
+      "target": {
+        "nodeId": "modal-2",
+        "port": "gate"
+      }
+    },
+    {
+      "id": "sequencer-3:pitch->modal-4:detune",
+      "source": {
+        "nodeId": "sequencer-3",
+        "port": "pitch"
+      },
+      "target": {
+        "nodeId": "modal-4",
+        "port": "detune"
+      }
+    },
+    {
+      "id": "sequencer-3:gate->modal-4:gate",
+      "source": {
+        "nodeId": "sequencer-3",
+        "port": "gate"
+      },
+      "target": {
+        "nodeId": "modal-4",
+        "port": "gate"
+      }
+    },
+    {
+      "id": "modal-2:audio->mixer-5:audio",
+      "source": {
+        "nodeId": "modal-2",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "mixer-5",
+        "port": "audio"
+      },
+      "amount": 0.6
+    },
+    {
+      "id": "modal-4:audio->mixer-5:audio",
+      "source": {
+        "nodeId": "modal-4",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "mixer-5",
+        "port": "audio"
+      },
+      "amount": 0.5
+    },
+    {
+      "id": "mixer-5:audio->reverb-6:audio",
+      "source": {
+        "nodeId": "mixer-5",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "reverb-6",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "reverb-6:audio->output-7:audio",
+      "source": {
+        "nodeId": "reverb-6",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "output-7",
+        "port": "audio"
+      }
+    }
+  ],
+  "meta": {
+    "title": "Modal",
+    "description": "Tubular bells on a slow melody and a marimba on an arpeggio, each struck by a gate and ringing with the partials of its model, in a hall"
+  }
+}

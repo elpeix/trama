@@ -1,0 +1,372 @@
+{
+  "version": 1,
+  "meta": {
+    "title": "Violin",
+    "description": "A bowed violin from the keys: one saw string through the body of a violin, bow noise, and a vibrato an envelope brings in after the attack"
+  },
+  "tempo": 120,
+  "nodes": [
+    {
+      "id": "keyboard-28",
+      "type": "keyboard",
+      "position": {
+        "x": 40,
+        "y": 221
+      },
+      "params": {
+        "transpose": 0
+      }
+    },
+    {
+      "id": "vco-30",
+      "type": "vco",
+      "position": {
+        "x": 811,
+        "y": 41
+      },
+      "params": {
+        "waveform": "sawtooth",
+        "mode": "keyboard",
+        "frequency": 440,
+        "detune": 0,
+        "width": 0.12,
+        "voices": 1,
+        "spread": 7,
+        "drift": 0.25
+      }
+    },
+    {
+      "id": "lfo-31",
+      "type": "lfo",
+      "position": {
+        "x": 40,
+        "y": 580
+      },
+      "params": {
+        "waveform": "sine",
+        "sync": "free",
+        "rate": 6
+      }
+    },
+    {
+      "id": "gain-33",
+      "type": "gain",
+      "name": "Vl",
+      "position": {
+        "x": 1621,
+        "y": 276
+      },
+      "params": {
+        "gain": 0
+      }
+    },
+    {
+      "id": "customFilter-34",
+      "type": "customFilter",
+      "position": {
+        "x": 1045,
+        "y": 41
+      },
+      "params": {
+        "response": "-24 -24 -17 -12 -3 5 2 4 0 -2.5 5.5 3.5 -3 -7.5 -11 -24"
+      }
+    },
+    {
+      "id": "output-35",
+      "type": "output",
+      "position": {
+        "x": 2067,
+        "y": 275
+      },
+      "params": {
+        "volume": 0.2,
+        "limiter": "on"
+      }
+    },
+    {
+      "id": "filter-37",
+      "type": "filter",
+      "position": {
+        "x": 1373,
+        "y": 169
+      },
+      "params": {
+        "type": "lowpass",
+        "frequency": 4000,
+        "Q": 1
+      }
+    },
+    {
+      "id": "noise-38",
+      "type": "noise",
+      "position": {
+        "x": 872,
+        "y": 465
+      },
+      "params": {}
+    },
+    {
+      "id": "filter-39",
+      "type": "filter",
+      "position": {
+        "x": 1097,
+        "y": 465
+      },
+      "params": {
+        "type": "bandpass",
+        "frequency": 2800,
+        "Q": 4
+      }
+    },
+    {
+      "id": "gain-40",
+      "type": "gain",
+      "position": {
+        "x": 1314,
+        "y": 464
+      },
+      "params": {
+        "gain": 0.2
+      }
+    },
+    {
+      "id": "reverb-43",
+      "type": "reverb",
+      "position": {
+        "x": 1834,
+        "y": 276
+      },
+      "params": {
+        "decay": 2,
+        "predelay": 0.02,
+        "tone": 6000,
+        "mix": 0.3
+      }
+    },
+    {
+      "id": "envelope-45",
+      "type": "envelope",
+      "position": {
+        "x": 442,
+        "y": 269
+      },
+      "params": {
+        "attack": 0.2,
+        "decay": 0.1,
+        "sustain": 0.9,
+        "release": 0.25,
+        "curve": "linear",
+        "spread": 0.01
+      }
+    },
+    {
+      "id": "envelope-46",
+      "type": "envelope",
+      "position": {
+        "x": 296,
+        "y": 726
+      },
+      "params": {
+        "attack": 0.8,
+        "decay": 0.3,
+        "sustain": 1,
+        "release": 0.25,
+        "curve": "linear",
+        "spread": 0.01
+      }
+    },
+    {
+      "id": "math-48",
+      "type": "math",
+      "position": {
+        "x": 559,
+        "y": 576
+      },
+      "params": {
+        "operation": "multiply",
+        "b": 0
+      }
+    }
+  ],
+  "connections": [
+    {
+      "id": "customFilter-34:audio->filter-37:audio",
+      "source": {
+        "nodeId": "customFilter-34",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "filter-37",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "noise-38:audio->filter-39:audio",
+      "source": {
+        "nodeId": "noise-38",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "filter-39",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "filter-39:audio->gain-40:audio",
+      "source": {
+        "nodeId": "filter-39",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "gain-40",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "reverb-43:audio->output-35:audio",
+      "source": {
+        "nodeId": "reverb-43",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "output-35",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "vco-30:audio->customFilter-34:audio",
+      "source": {
+        "nodeId": "vco-30",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "customFilter-34",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "gain-40:audio->gain-33:audio",
+      "source": {
+        "nodeId": "gain-40",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "gain-33",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "keyboard-28:gate->envelope-45:gate",
+      "source": {
+        "nodeId": "keyboard-28",
+        "port": "gate"
+      },
+      "target": {
+        "nodeId": "envelope-45",
+        "port": "gate"
+      }
+    },
+    {
+      "id": "envelope-45:out->gain-33:gain",
+      "source": {
+        "nodeId": "envelope-45",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "gain-33",
+        "port": "gain"
+      }
+    },
+    {
+      "id": "filter-37:audio->gain-33:audio",
+      "source": {
+        "nodeId": "filter-37",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "gain-33",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "envelope-45:out->filter-37:frequency",
+      "source": {
+        "nodeId": "envelope-45",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "filter-37",
+        "port": "frequency"
+      }
+    },
+    {
+      "id": "lfo-31:out->math-48:a",
+      "source": {
+        "nodeId": "lfo-31",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "math-48",
+        "port": "a"
+      },
+      "amount": 0.7
+    },
+    {
+      "id": "math-48:out->vco-30:detune",
+      "source": {
+        "nodeId": "math-48",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "vco-30",
+        "port": "detune"
+      },
+      "amount": 0.01
+    },
+    {
+      "id": "keyboard-28:gate->envelope-46:gate",
+      "source": {
+        "nodeId": "keyboard-28",
+        "port": "gate"
+      },
+      "target": {
+        "nodeId": "envelope-46",
+        "port": "gate"
+      }
+    },
+    {
+      "id": "envelope-46:out->math-48:b",
+      "source": {
+        "nodeId": "envelope-46",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "math-48",
+        "port": "b"
+      },
+      "amount": 0.4
+    },
+    {
+      "id": "keyboard-28:pitch->vco-30:detune",
+      "source": {
+        "nodeId": "keyboard-28",
+        "port": "pitch"
+      },
+      "target": {
+        "nodeId": "vco-30",
+        "port": "detune"
+      }
+    },
+    {
+      "id": "gain-33:audio->reverb-43:audio",
+      "source": {
+        "nodeId": "gain-33",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "reverb-43",
+        "port": "audio"
+      }
+    }
+  ]
+}

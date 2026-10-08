@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <style>
+    .cable { fill: none; stroke-width: 90; stroke-linecap: round; }
+  </style>
+  <rect x="0" y="0" width="32" height="32" rx="7" fill="#151515"/>
+  <svg x="2" y="8.5" width="28" height="15" viewBox="110 130 790 430">
+    <defs>
+      <linearGradient id="weft" gradientUnits="userSpaceOnUse" x1="120" y1="400" x2="880" y2="260">
+        <stop offset="0" stop-color="#5b8cff"/>
+        <stop offset="0.5" stop-color="#5cc8e0"/>
+        <stop offset="1" stop-color="#86d9a0"/>
+      </linearGradient>
+    </defs>
+    <path class="cable" stroke="url(#weft)" d="M245 330C280 320 300 285 335 235C370 190 410 183 470 183C530 183 573 230 573 290V395"/>
+    <path class="cable" stroke="url(#weft)" d="M460 312V420C460 475 515 508 576 508C637 508 692 465 692 405C692 350 730 312 785 312H838"/>
+    <circle class="port" fill="none" stroke="url(#weft)" stroke-width="44" cx="190" cy="335" r="52"/>
+  </svg>
+</svg>

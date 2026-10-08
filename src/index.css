@@ -1,0 +1,214 @@
+:root {
+  --bg: #f6f6f4;
+  --surface: #ffffff;
+  --text: #1d1d1f;
+  --muted: #6b6b70;
+  --border: #d8d8dc;
+  --accent: #4a4d50;
+  --audio: #6b8fc7;
+  --control: #d9822b;
+  --trigger: #2f9e6e;
+  --notes: #b0359f;
+  --danger: #d9463b;
+  /* Traces: the family says what the signal is, the shade tells two of the same apart. */
+  --trace-audio-1: #3d6fb6;
+  --trace-audio-2: #1d9bb0;
+  --trace-audio-3: #6a52e0;
+  --trace-control-1: #e07b1f;
+  --trace-control-2: #d6406f;
+  --trace-control-3: #a8861c;
+  --hw-top: #f1efea;
+  --hw-bottom: #d9d6ce;
+  --hw-hover-top: #fbfaf7;
+  --hw-hover-bottom: #e6e3dc;
+  --hw-pressed-top: #c8c5bd;
+  --hw-pressed-bottom: #d6d3cb;
+  --hw-edge: #8e8b84;
+  --hw-highlight: rgb(255 255 255 / 0.9);
+  --hw-sheen: rgb(255 255 255 / 0.7);
+  --hw-press-shadow: rgb(0 0 0 / 0.2);
+  --hw-label: #33363a;
+  --hw-faint: #6f6c66;
+  --hw-dim: #a3a098;
+  --hw-bg: #f6f5f1;
+  --hw-surface: #e4e1da;
+  --hw-text: #222426;
+  --hw-muted: #5f625f;
+  --hw-border: #b8b4ab;
+  --hw-well: #dedbd3;
+  --hw-well-dark: #bdb9b0;
+  --lcd-bg: #c7d3bd;
+  --lcd-text: #10301d;
+  --lcd-muted: #3f5f4a;
+  --lcd-dim: #a7b89c;
+  --lcd-glow: transparent;
+  --lcd-inset: rgb(0 0 0 / 0.3);
+  --lcd-shade: rgb(0 0 0 / 0.06);
+  --lcd-hover: rgb(250 254 180 / 0.55);
+  --lcd-lit: #e6ecbe;
+  --knob-glow: var(--lcd-lit);
+  --song-playing: #dce6a0;
+  --engrave-ink: #625e56;
+  --engrave-light: rgb(255 255 255 / 0.95);
+  --engrave-shade: rgb(0 0 0 / 0.18);
+  --led-green: #14a454;
+  --led-red: #e0402f;
+  --led-red-text: #b52f22;
+  --led-red-off: #cfb2ad;
+  --led-amber: #cf7410;
+  --led-amber-off: #eed9b3;
+  /*
+   * What lights up on the screens: the steps, the rhythms and the curves drawn on them. On the light
+   * theme, a segment of the screen: dark, but with some of the screen showing through.
+   */
+  --ink: #3e5945;
+  /* The ring round the jacks of the ports. */
+  --jack-edge: #4a4d50;
+  /* The colour of each kind of module, on its title and its banks of patterns. */
+  --category-other: #8a918c;
+  --category-sources: #5b7cbf;
+  --category-processing: #9a6fbf;
+  --category-modulation: #c78035;
+  --category-notes: #3e9b6b;
+  --category-output: #c45d7f;
+  --bank-a: #d4552f;
+  --bank-b: #e0912a;
+  --bank-c: #d9b62f;
+  --bank-d: #cfc6ae;
+  --meter-gap: rgb(255 255 255 / 0.5);
+  --meter-off: rgb(232 229 222 / 0.8);
+  /* Knobs: brushed aluminium, with a dark pointer. */
+  --knob-well-edge: #8e8b84;
+  --knob-edge: #7d7a73;
+  --knob-shadow: rgb(0 0 0 / 0.35);
+  --knob-skirt-top: #f4f2ed;
+  --knob-skirt-bottom: #8f8b83;
+  --knob-grip: rgb(0 0 0 / 0.3);
+  --knob-cap-edge: rgb(255 255 255 / 0.8);
+  --knob-cap-light: #ffffff;
+  --knob-cap-mid: #dcd9d2;
+  --knob-cap-dark: #b9b5ac;
+  --knob-pointer: #1d1f22;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 14px;
+  color: var(--text);
+  background: var(--bg);
+  color-scheme: light dark;
+}
+
+:root[data-theme="dark"] {
+  --bg: #151515;
+  --surface: #232323;
+  --text: #ececea;
+  --muted: #9f9e9a;
+  --border: #3a3a39;
+  --accent: #d4d3cf;
+  --audio: #86a3d9;
+  --control: #f0a45a;
+  --trigger: #4cc38a;
+  --notes: #e27ad3;
+  --trace-audio-1: #86a3d9;
+  --trace-audio-2: #4fc6d9;
+  --trace-audio-3: #a08cf5;
+  --trace-control-1: #f0a45a;
+  --trace-control-2: #f07a9e;
+  --trace-control-3: #e8c65a;
+  --hw-top: #383837;
+  --hw-bottom: #242423;
+  --hw-hover-top: #444443;
+  --hw-hover-bottom: #2e2e2d;
+  --hw-pressed-top: #1d1d1c;
+  --hw-pressed-bottom: #2a2a29;
+  --hw-edge: #000;
+  --hw-highlight: rgb(255 255 255 / 0.09);
+  --hw-sheen: rgb(255 255 255 / 0.05);
+  --hw-press-shadow: rgb(0 0 0 / 0.6);
+  --hw-label: #d4d3cf;
+  --hw-faint: #878682;
+  --hw-dim: #565552;
+  --hw-bg: #121212;
+  --hw-surface: #282827;
+  --hw-text: #e9e8e4;
+  --hw-muted: #a09f9a;
+  --hw-border: #434341;
+  --hw-well: #1b1b1a;
+  --hw-well-dark: #121212;
+  --lcd-bg: #0d140f;
+  --lcd-text: #86d9a0;
+  --lcd-muted: #4f8f63;
+  --lcd-dim: #1e3526;
+  --lcd-glow: #5fae78;
+  --lcd-inset: rgb(0 0 0 / 0.8);
+  --lcd-shade: rgb(0 0 0 / 0.25);
+  --lcd-hover: rgb(134 217 160 / 0.12);
+  --lcd-lit: color-mix(in srgb, var(--lcd-text) 10%, var(--lcd-bg));
+  --knob-glow: rgb(134 217 160 / 0.3);
+  --song-playing: color-mix(in srgb, var(--led-green) 25%, transparent);
+  --engrave-ink: #85847d;
+  --engrave-light: rgb(255 255 255 / 0.07);
+  --engrave-shade: rgb(0 0 0 / 0.95);
+  --led-green: #86d9a0;
+  --led-red: #ff5c4d;
+  --led-red-text: #ff6b5c;
+  --led-red-off: #3d1714;
+  --led-amber: #ffb35c;
+  --led-amber-off: #3a2c10;
+  --ink: var(--lcd-text);
+  --jack-edge: #000;
+  --category-other: #a09f9a;
+  --category-sources: #8aa3d6;
+  --category-processing: #b491d6;
+  --category-modulation: #dba466;
+  --category-notes: #6fbd8f;
+  --category-output: #dc86a2;
+  --bank-a: #e8734d;
+  --bank-b: #f0a94a;
+  --bank-c: #e8cd5a;
+  --bank-d: #d9d2bf;
+  --meter-gap: rgb(0 0 0 / 0.55);
+  --meter-off: rgb(10 10 10 / 0.74);
+  /* Knobs: graphite, with a light pointer. */
+  --knob-well-edge: #000;
+  --knob-edge: #000;
+  --knob-shadow: rgb(0 0 0 / 0.8);
+  --knob-skirt-top: #595957;
+  --knob-skirt-bottom: #181818;
+  --knob-grip: rgb(0 0 0 / 0.45);
+  --knob-cap-edge: rgb(255 255 255 / 0.12);
+  --knob-cap-light: #545452;
+  --knob-cap-mid: #2b2b2a;
+  --knob-cap-dark: #1e1e1d;
+  --knob-pointer: #e9e8e4;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  background: var(--bg);
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+input,
+textarea,
+[contenteditable="true"] {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+button,
+select {
+  font: inherit;
+  color: inherit;
+}

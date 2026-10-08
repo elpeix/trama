@@ -1,0 +1,244 @@
+{
+  "version": 1,
+  "meta": {
+    "title": "Plucked strings",
+    "description": "A harp and a nylon bass from the Physical Model, with no ADSR nor Gain"
+  },
+  "tempo": 96,
+  "nodes": [
+    {
+      "id": "arpeggiator-1",
+      "type": "arpeggiator",
+      "name": "Harp",
+      "position": {
+        "x": 40,
+        "y": 40
+      },
+      "params": {
+        "source": "notes",
+        "division": "1/8",
+        "start": "grid",
+        "pattern": "up-down",
+        "chord": "off",
+        "span": 2,
+        "gate": 0.5,
+        "length": 16,
+        "transpose": 0,
+        "rhythm": "x x x - x x - x x x x - x - x x",
+        "notes": "C4 E4 G4 B4",
+        "octave": 0,
+        "keys": "off",
+        "launch": "bar"
+      }
+    },
+    {
+      "id": "physicalModel-2",
+      "type": "physicalModel",
+      "position": {
+        "x": 400,
+        "y": 40
+      },
+      "params": {
+        "mode": "keyboard",
+        "frequency": 220,
+        "detune": 0,
+        "decay": 1.2,
+        "damp": 0.08,
+        "brightness": 0.6
+      }
+    },
+    {
+      "id": "lfo-3",
+      "type": "lfo",
+      "position": {
+        "x": 40,
+        "y": 619
+      },
+      "params": {
+        "waveform": "sine",
+        "sync": "4 bars",
+        "rate": 0.25
+      }
+    },
+    {
+      "id": "delay-4",
+      "type": "delay",
+      "name": "Harp echo",
+      "position": {
+        "x": 760,
+        "y": 40
+      },
+      "params": {
+        "sync": "3/16",
+        "time": 0.4,
+        "feedback": 0.4,
+        "mix": 0.35
+      }
+    },
+    {
+      "id": "sequencer-5",
+      "type": "sequencer",
+      "name": "Bass",
+      "position": {
+        "x": 40,
+        "y": 899
+      },
+      "params": {
+        "division": "1/4",
+        "length": 8,
+        "gate": 0.5,
+        "glide": 60,
+        "octave": -2,
+        "root": "C",
+        "scale": "major",
+        "chord": "off",
+        "keys": "off",
+        "launch": "bar",
+        "steps": "C4 - A4 - F4 - G4 - C4 - C4 - C4 - C4 -"
+      }
+    },
+    {
+      "id": "physicalModel-6",
+      "type": "physicalModel",
+      "position": {
+        "x": 400,
+        "y": 899
+      },
+      "params": {
+        "mode": "keyboard",
+        "frequency": 220,
+        "detune": 0,
+        "decay": 3,
+        "damp": 0.08,
+        "brightness": 0.15
+      }
+    },
+    {
+      "id": "mixer-7",
+      "type": "mixer",
+      "position": {
+        "x": 1120,
+        "y": 380
+      },
+      "params": {
+        "level": 0.7
+      }
+    },
+    {
+      "id": "output-8",
+      "type": "output",
+      "position": {
+        "x": 1480,
+        "y": 380
+      },
+      "params": {
+        "volume": 0.8,
+        "limiter": "on"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "id": "arpeggiator-1:pitch->physicalModel-2:detune",
+      "source": {
+        "nodeId": "arpeggiator-1",
+        "port": "pitch"
+      },
+      "target": {
+        "nodeId": "physicalModel-2",
+        "port": "detune"
+      }
+    },
+    {
+      "id": "arpeggiator-1:gate->physicalModel-2:gate",
+      "source": {
+        "nodeId": "arpeggiator-1",
+        "port": "gate"
+      },
+      "target": {
+        "nodeId": "physicalModel-2",
+        "port": "gate"
+      }
+    },
+    {
+      "id": "lfo-3:out->physicalModel-2:brightness",
+      "source": {
+        "nodeId": "lfo-3",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "physicalModel-2",
+        "port": "brightness"
+      },
+      "amount": 0.3
+    },
+    {
+      "id": "physicalModel-2:audio->delay-4:audio",
+      "source": {
+        "nodeId": "physicalModel-2",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "delay-4",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "sequencer-5:pitch->physicalModel-6:detune",
+      "source": {
+        "nodeId": "sequencer-5",
+        "port": "pitch"
+      },
+      "target": {
+        "nodeId": "physicalModel-6",
+        "port": "detune"
+      }
+    },
+    {
+      "id": "sequencer-5:gate->physicalModel-6:gate",
+      "source": {
+        "nodeId": "sequencer-5",
+        "port": "gate"
+      },
+      "target": {
+        "nodeId": "physicalModel-6",
+        "port": "gate"
+      }
+    },
+    {
+      "id": "delay-4:audio->mixer-7:audio",
+      "source": {
+        "nodeId": "delay-4",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "mixer-7",
+        "port": "audio"
+      },
+      "amount": 0.7
+    },
+    {
+      "id": "physicalModel-6:audio->mixer-7:audio",
+      "source": {
+        "nodeId": "physicalModel-6",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "mixer-7",
+        "port": "audio"
+      },
+      "amount": 0.9
+    },
+    {
+      "id": "mixer-7:audio->output-8:audio",
+      "source": {
+        "nodeId": "mixer-7",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "output-8",
+        "port": "audio"
+      }
+    }
+  ]
+}

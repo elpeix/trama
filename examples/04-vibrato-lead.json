@@ -1,0 +1,180 @@
+{
+  "version": 1,
+  "meta": {
+    "title": "Vibrato lead",
+    "description": "A square wave with vibrato"
+  },
+  "tempo": 120,
+  "nodes": [
+    {
+      "id": "keyboard-1",
+      "type": "keyboard",
+      "position": {
+        "x": 40,
+        "y": 320
+      },
+      "params": {
+        "transpose": 0
+      }
+    },
+    {
+      "id": "oscillator-2",
+      "type": "oscillator",
+      "position": {
+        "x": 360,
+        "y": 40
+      },
+      "params": {
+        "waveform": "square",
+        "mode": "keyboard",
+        "frequency": 440,
+        "detune": 0
+      }
+    },
+    {
+      "id": "lfo-3",
+      "type": "lfo",
+      "position": {
+        "x": 40,
+        "y": 40
+      },
+      "params": {
+        "waveform": "sine",
+        "sync": "free",
+        "rate": 5.5
+      }
+    },
+    {
+      "id": "filter-4",
+      "type": "filter",
+      "position": {
+        "x": 680,
+        "y": 40
+      },
+      "params": {
+        "type": "lowpass",
+        "frequency": 2000,
+        "Q": 1
+      }
+    },
+    {
+      "id": "gain-5",
+      "type": "gain",
+      "position": {
+        "x": 1000,
+        "y": 40
+      },
+      "params": {
+        "gain": 0
+      }
+    },
+    {
+      "id": "envelope-6",
+      "type": "envelope",
+      "position": {
+        "x": 360,
+        "y": 320
+      },
+      "params": {
+        "attack": 0.08,
+        "decay": 0.2,
+        "sustain": 0.7,
+        "release": 0.4,
+        "curve": "linear",
+        "spread": 0.01
+      }
+    },
+    {
+      "id": "output-7",
+      "type": "output",
+      "position": {
+        "x": 1320,
+        "y": 40
+      },
+      "params": {
+        "volume": 1,
+        "limiter": "on"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "id": "keyboard-1:pitch->oscillator-2:detune",
+      "source": {
+        "nodeId": "keyboard-1",
+        "port": "pitch"
+      },
+      "target": {
+        "nodeId": "oscillator-2",
+        "port": "detune"
+      }
+    },
+    {
+      "id": "lfo-3:out->oscillator-2:detune",
+      "source": {
+        "nodeId": "lfo-3",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "oscillator-2",
+        "port": "detune"
+      },
+      "amount": 0.02
+    },
+    {
+      "id": "keyboard-1:gate->envelope-6:gate",
+      "source": {
+        "nodeId": "keyboard-1",
+        "port": "gate"
+      },
+      "target": {
+        "nodeId": "envelope-6",
+        "port": "gate"
+      }
+    },
+    {
+      "id": "oscillator-2:audio->filter-4:audio",
+      "source": {
+        "nodeId": "oscillator-2",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "filter-4",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "filter-4:audio->gain-5:audio",
+      "source": {
+        "nodeId": "filter-4",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "gain-5",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "envelope-6:out->gain-5:gain",
+      "source": {
+        "nodeId": "envelope-6",
+        "port": "out"
+      },
+      "target": {
+        "nodeId": "gain-5",
+        "port": "gain"
+      }
+    },
+    {
+      "id": "gain-5:audio->output-7:audio",
+      "source": {
+        "nodeId": "gain-5",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "output-7",
+        "port": "audio"
+      }
+    }
+  ]
+}
