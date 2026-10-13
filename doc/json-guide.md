@@ -134,7 +134,7 @@ There are other optional fields (`perform`, `hiddenLaunchers`, `scenes`, and
 
 ## How a note sounds
 
-The sequencers (`sequencer`, `arpeggiator`, `clip`, `keyboard`) make no sound:
+The sequencers (`sequencer`, `arpeggiator`, `clip`, `keyboard`, `midiInput`) make no sound:
 they send two things that must be connected to a voice.
 
 - **`pitch`** (control) is the pitch of the note in **octaves from C4**: 0 is
@@ -884,6 +884,22 @@ Play notes with the computer keys.
 | Param | Values | Default | Modulatable |
 | --- | --- | --- | --- |
 | `transpose` | 0 to 11 (0 = C, 1 = C#, … 11 = B) | `0` | no |
+
+#### `midiInput` — MIDI In
+
+Play notes with a MIDI keyboard or controller. It hears every MIDI device
+plugged in, and the computer keys do not play it.
+
+- Inputs: none
+- Outputs: `pitch` (control, bent by the pitch wheel), `gate` (trigger), `notes`
+  (notes), `velocity` (control), `mod` (control, the mod wheel, 0 to 1), `pedal`
+  (control, the sustain pedal, 0 to 1)
+
+| Param | Values | Default | Modulatable |
+| --- | --- | --- | --- |
+| `channel` | `all`, `1` to `16` | `all` | no |
+| `transpose` | −24 to 24 semitones | `0` | no |
+| `bend` | 0 to 12 semitones (how far the pitch wheel bends each way) | `2` | no |
 
 #### `arpeggiator` — Arp
 

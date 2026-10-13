@@ -13,6 +13,7 @@ export function displayEngine(overrides: Partial<DisplayEngine> = {}): DisplayEn
     getModulation: vi.fn(),
     getKeyTranspose: vi.fn(),
     getInputStatus: vi.fn(),
+    getMidiState: vi.fn(),
     isOutputMuted: vi.fn(() => false),
     unmuteOutput: vi.fn(),
     getVoiceUsage: vi.fn(),

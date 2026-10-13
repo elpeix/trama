@@ -2,7 +2,9 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { NodeType, PatchConnection, PatchNode, Params } from "../patch/types";
 import { defaultParams } from "../patch/registry";
 import { FakeAudioContext } from "../test/fakeAudioContext";
+import { FakeMidiAccess, FakeMidiInput, settle } from "../test/fakeMidi";
 import { AudioEngine } from "./AudioEngine";
+import { MidiInput } from "./MidiInput";
 import { ClockModule } from "./modules/modulation/ClockModule";
 import { DelayModule } from "./modules/processing/DelayModule";
 import { EnvelopeModule } from "./modules/modulation/EnvelopeModule";
@@ -1565,5 +1567,111 @@ describe("subpatches", () => {
 
     const scaler = context.gains.find((gain) => gain.gain.value === 0.5);
     expect(scaler).toBeDefined();
+  });
+});
+
+describe("MIDI", () => {
+  let access: FakeMidiAccess;
+  let keyboard: FakeMidiInput;
+  let request: ReturnType<typeof vi.fn<() => Promise<MIDIAccess>>>;
+
+  beforeEach(() => {
+    access = new FakeMidiAccess();
+    keyboard = new FakeMidiInput("a", "Keystation");
+    access.inputs.set(keyboard.id, keyboard);
+    request = vi.fn(() => Promise.resolve(access.asMidiAccess()));
+    context = new FakeAudioContext();
+    engine = new AudioEngine(context.asAudioContext(), undefined, new MidiInput(request));
+  });
+
+  it("asks for the devices only once a MIDI In is added", async () => {
+    engine.createModule(node("keys", "keyboard"));
+    await settle();
+    expect(request).not.toHaveBeenCalled();
+
+    engine.createModule(node("midi", "midiInput"));
+    await settle();
+
+    expect(request).toHaveBeenCalledTimes(1);
+    expect(engine.getMidiState("midi")).toEqual({ status: "on", devices: ["Keystation"] });
+    expect(engine.getMidiState("keys")).toBeUndefined();
+  });
+
+  it("plays the MIDI notes on a MIDI In, and the computer keys on a Keyboard only", async () => {
+    engine.createModule(node("midi", "midiInput"));
+    engine.createModule(node("keys", "keyboard"));
+    await settle();
+
+    keyboard.send(0x90, 62, 100);
+    engine.noteOn(60);
+
+    expect(engine.getNotes("midi")).toEqual({ notes: [62], playing: 62 });
+    expect(engine.getNotes("keys")).toEqual({ notes: [60], playing: 60 });
+  });
+
+  it("ends the notes of the MIDI In when a device goes away", async () => {
+    engine.createModule(node("midi", "midiInput"));
+    await settle();
+    keyboard.send(0x90, 62, 100);
+
+    access.unplug(keyboard);
+
+    expect(engine.getNotes("midi")).toEqual({ notes: [] });
+  });
+
+  describe("while stopped", () => {
+    beforeEach(async () => {
+      engine.createModule(node("midi", "midiInput"));
+      await settle();
+      vi.useFakeTimers();
+      engine.setSoundWhileStopped(true);
+      return () => {
+        vi.useRealTimers();
+      };
+    });
+
+    it("sounds the MIDI notes, until a while after the last one ends", () => {
+      keyboard.send(0x90, 60, 100);
+      expect(context.state).toBe("running");
+      expect(engine.state).toBe("suspended");
+
+      keyboard.send(0x80, 60, 0);
+      vi.advanceTimersByTime(5_100);
+
+      expect(context.state).toBe("suspended");
+    });
+
+    it("keeps sounding while the sustain pedal is down", () => {
+      keyboard.send(0x90, 60, 100);
+      keyboard.send(0xb0, 64, 127);
+      keyboard.send(0x80, 60, 0);
+      vi.advanceTimersByTime(10_000);
+      expect(context.state).toBe("running");
+
+      keyboard.send(0xb0, 64, 0);
+      vi.advanceTimersByTime(5_100);
+
+      expect(context.state).toBe("suspended");
+    });
+
+    it("stops sounding a while after a device goes away in the middle of a note", () => {
+      keyboard.send(0x90, 60, 100);
+
+      access.unplug(keyboard);
+      vi.advanceTimersByTime(5_100);
+
+      expect(context.state).toBe("suspended");
+    });
+  });
+
+  it("does not sound the MIDI notes while stopped without a MIDI In", async () => {
+    engine.createModule(node("midi", "midiInput"));
+    await settle();
+    engine.removeModule("midi");
+    engine.setSoundWhileStopped(true);
+
+    keyboard.send(0x90, 60, 100);
+
+    expect(context.state).toBe("suspended");
   });
 });

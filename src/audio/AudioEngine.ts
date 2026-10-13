@@ -29,6 +29,8 @@ import {
   type SamplerState,
 } from "./modules/AudioModule";
 import { createAudioModule } from "./modules/createAudioModule";
+import { MidiInput, type MidiState } from "./MidiInput";
+import { parseMidiMessage, pedalDown, SUSTAIN_PEDAL, type MidiEvent } from "./midiMessage";
 import { SongPlayer } from "./SongPlayer";
 import { Transport } from "./Transport";
 import { SampleLibrary } from "../samples/sampleLibrary";
@@ -129,6 +131,7 @@ const RINGS: Record<NodeType, boolean> = {
   envelopeFollower: false,
   clock: false,
   keyboard: false,
+  midiInput: false,
   arpeggiator: false,
   sequencer: false,
   clip: false,
@@ -143,6 +146,18 @@ const RINGS: Record<NodeType, boolean> = {
 };
 
 const STOPPED_TAIL_MS = 5_000;
+
+/** What a MIDI message holds the sound on with while stopped: a key, or the sustain pedal. */
+function midiHoldKey(event: MidiEvent): string | undefined {
+  if (event.type === "noteOn" || event.type === "noteOff") {
+    return `midi ${event.channel} ${event.note}`;
+  }
+  return event.type === "control" && event.control === SUSTAIN_PEDAL ? `midi pedal ${event.channel}` : undefined;
+}
+
+function midiHolds(event: MidiEvent): boolean {
+  return event.type === "noteOn" || (event.type === "control" && pedalDown(event.value));
+}
 
 export class AudioEngine {
   private readonly context: AudioContext;
@@ -174,9 +189,14 @@ export class AudioEngine {
   /** What the song sets on each mixer channel instead of the settings of its cable. */
   private readonly channelControls = new Map<string, Partial<Record<ChannelControl, number>>>();
 
-  constructor(context: AudioContext, samples = new SampleLibrary()) {
+  /** The MIDI devices, asked for once a module plays them. */
+  private readonly midi: MidiInput;
+
+  constructor(context: AudioContext, samples = new SampleLibrary(), midi = new MidiInput()) {
     this.context = context;
     this.samples = samples;
+    this.midi = midi;
+    midi.subscribe({ message: (data) => this.receiveMidi(data), lost: () => this.releaseMidi() });
     this.transport = new Transport(context);
     this.transport.pause();
     this.recording = context.createMediaStreamDestination();
@@ -322,7 +342,7 @@ export class AudioEngine {
       type: node.type,
       params: { ...node.params },
       patterns: { ...node.patterns },
-      module: createAudioModule(this.context, node, this.transport, this.recording, this.samples),
+      module: createAudioModule(this.context, node, this.transport, this.recording, this.samples, this.midi),
     });
   }
 
@@ -685,6 +705,35 @@ export class AudioEngine {
   allNotesOff() {
     this.forEachNoteReceiver((receiver) => receiver.allNotesOff(this.context.currentTime));
     this.letGo(...[...this.held].filter((key) => key.startsWith("note ")));
+  }
+
+  getMidiState(nodeId: NodeId): MidiState | undefined {
+    return this.entries.get(nodeId)?.module.getMidiState?.();
+  }
+
+  /**
+   * Plays a message from the MIDI devices on the modules that hear them. Their notes, and the
+   * sustain pedal, keep the sound on while stopped as the computer keys do.
+   */
+  private receiveMidi(data: Uint8Array) {
+    const event = parseMidiMessage(data);
+    const receivers = [...this.entries.values()].filter(({ module }) => module.receiveMidi);
+    if (!event || receivers.length === 0) {
+      return;
+    }
+    const key = midiHoldKey(event);
+    if (key && midiHolds(event)) {
+      this.hold(key);
+    }
+    receivers.forEach(({ module }) => module.receiveMidi!(event, this.context.currentTime));
+    if (key && !midiHolds(event)) {
+      this.letGo(key);
+    }
+  }
+
+  private releaseMidi() {
+    this.entries.forEach(({ module }) => module.releaseMidi?.(this.context.currentTime));
+    this.letGo(...[...this.held].filter((key) => key.startsWith("midi ")));
   }
 
   private wire(

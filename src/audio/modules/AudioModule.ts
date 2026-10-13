@@ -1,5 +1,7 @@
 import type { ParamValue, PatternSlot } from "../../patch/types";
 import type { Launch } from "../../patch/patterns";
+import type { MidiState } from "../MidiInput";
+import type { MidiEvent } from "../midiMessage";
 import type { StereoAnalyser } from "./stereoAnalyser";
 
 export interface TriggerInput {
@@ -85,6 +87,11 @@ export interface AudioModule {
   /** Semitones the computer keys move its notes by, when it follows them; 0 when it does not. */
   getKeyTranspose?(): number;
   getInputStatus?(): InputStatus;
+  /** Plays a message from the MIDI devices. */
+  receiveMidi?(event: MidiEvent, time: number): void;
+  /** Ends the notes the MIDI devices started, as when one goes away. */
+  releaseMidi?(time: number): void;
+  getMidiState?(): MidiState;
   /** Whether its limiter went quiet because the sound ran away, until unmute. */
   isMuted?(): boolean;
   unmute?(): void;

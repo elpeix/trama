@@ -6,6 +6,7 @@ import { searchEntries } from "./moduleSearch";
 const NEEDS: Record<NonNullable<Example["needs"]>, string> = {
   keys: "Play the keys",
   microphone: "Uses the microphone",
+  midi: "Played from a MIDI device",
 };
 
 const entries = EXAMPLES.map((example) => ({

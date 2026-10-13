@@ -30,12 +30,15 @@ describe("the catalog of examples", () => {
     });
   });
 
-  it("marks the examples played from the keys, and the one that listens to the microphone", async () => {
+  it("marks the examples played from the keys, the one that listens to the microphone, and the one played from MIDI", async () => {
     const needs = await Promise.all(
       EXAMPLES.map(async ({ id }) => {
         const nodes = allNodes(parsePatch(await loadExample(id)));
         if (nodes.some((node) => node.type === "audioInput")) {
           return "microphone";
+        }
+        if (nodes.some((node) => node.type === "midiInput")) {
+          return "midi";
         }
         const keys = nodes.some(
           (node) => node.type === "keyboard" || (node.type === "arpeggiator" && node.params.source === "keys"),

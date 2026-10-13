@@ -6,6 +6,7 @@ import { EngineContext } from "../components/EngineContext";
 import { KeysPanel } from "../components/keys/KeysPanel";
 import { ParamControl } from "../components/controls/ParamControl";
 import { InputDisplay } from "../components/displays/InputDisplay";
+import { MidiDisplay } from "../components/displays/MidiDisplay";
 import { VoiceUsageDisplay } from "../components/displays/VoiceUsageDisplay";
 import { OutputDisplay } from "../components/displays/OutputDisplay";
 import { MixerDisplay } from "../components/displays/MixerDisplay";
@@ -279,6 +280,7 @@ export function ModuleNode({ id, data }: Pick<NodeProps<FlowNode>, "id" | "data"
           )}
           {definition.display === "meter" && <OutputDisplay nodeId={id} />}
           {definition.display === "input" && <InputDisplay nodeId={id} />}
+          {definition.display === "midi" && <MidiDisplay nodeId={id} />}
           {definition.display === "wave" && (
             <WavePreview
               nodeId={id}

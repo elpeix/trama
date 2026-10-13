@@ -16,7 +16,7 @@ export interface Example {
   title: string;
   description: string;
   /** What it takes to hear it besides starting the audio; nothing when it plays on its own. */
-  needs?: "keys" | "microphone";
+  needs?: "keys" | "microphone" | "midi";
 }
 
 export const EXAMPLES: readonly Example[] = [
@@ -62,6 +62,13 @@ export const EXAMPLES: readonly Example[] = [
     title: "Piano",
     description:
       "A slow piece in A minor on the Piano: broken chords in the left hand and a melody in the right, each note as hard as it is played, so louder and brighter, in a hall",
+  },
+  {
+    id: "56-midi-piano",
+    category: "instruments",
+    title: "MIDI piano",
+    description: "The Piano played from a MIDI keyboard, as hard as each key is struck, with the sustain pedal on its Pedal, in a hall",
+    needs: "midi",
   },
   {
     id: "53-wind",
