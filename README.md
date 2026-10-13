@@ -100,6 +100,7 @@ dret sobre un mòdul no l'obre.
 | Envelope Follower | àudio                                        | control                                                  | Attack, Release, Gain                               |
 | Clock             | gate (trigger)                               | bar, 1/2, 1/4, 1/8, 1/16, 1/32 (trigger)                 | Gate                                                |
 | Keyboard          | —                                            | pitch i velocity (control), gate (trigger), `notes`      | Octave                                              |
+| MIDI In           | —                                            | pitch, velocity, mod i pedal (control), gate, `notes`    | Channel, Transpose, Bend                            |
 | Arp               | clock (trigger)                              | pitch (control), gate (trigger)                          | Step, Pattern, Chord, Span, Gate, Octave            |
 | Seq               | clock (trigger)                              | pitch i accent (control), gate (trigger), `notes`        | Step, Length, Gate, Octave, Root, Scale, Chord      |
 | Clip              | —                                            | pitch i velocity (control), gate (trigger), `notes`      | Bars, Octave, Launch, Notes (al piano roll)         |
@@ -256,6 +257,37 @@ començant pel primer, i el manté obert el mateix temps que l'original. Amb les
 tecles, `÷2` sona una tecla sí i una no; amb un Clock a `1/16` al davant, `÷3`
 fa una pulsació cada tres setzens, a contratemps de les corxeres. En treure el
 cable, torna a la graella i torna a comptar des del principi.
+
+### MIDI In
+
+Toca notes amb un teclat o un controlador MIDI, igual que el Keyboard amb les
+tecles de l'ordinador: el `pitch` i el `gate` segueixen l'última tecla premuda, i
+`notes` les porta totes, amb la força amb què es toquen.
+
+- El navegador demana permís per al MIDI el primer cop que s'afegeix el mòdul.
+  Funciona a Chrome, Edge i Firefox; Safari no té MIDI.
+- Escolta tots els dispositius connectats, també els que s'endollen després, i
+  el node mostra quins són i la nota que sona. Si se'n desconnecta un enmig
+  d'una nota, la nota s'acaba.
+- **Channel** escolta un sol canal (1–16) o tots (`all`). **Transpose** mou les
+  notes fins a dues octaves amunt o avall.
+- La roda de **pitch bend** mou el `pitch` fins a **Bend** semitons amunt o
+  avall. Només arriba al `pitch`: la sortida `notes` no la porta.
+- `mod` és la roda de modulació i `pedal` el pedal de sustain, tots dos de 0 a 1.
+  Mentre el pedal és avall, les notes que es deixen anar continuen sonant fins
+  que puja. Connectat al Pedal del Piano, a més, el piano ressona com amb el seu.
+- Les tecles de l'ordinador no el toquen, ni el MIDI toca el Keyboard.
+- Amb **Sound** encès, també sona amb el transport aturat, com les tecles.
+
+Per provar-lo sense cap teclat, n'hi ha prou amb un teclat virtual:
+
+- **VMPK** crea el seu propi port, `MIDI Out`, que el node veu tal qual: no cal
+  canviar-ne la configuració. A algunes versions de macOS, triar el driver
+  CoreMIDI a VMPK el fa tancar de cop; no cal fer-ho.
+- **MidiKeys** (`brew install --cask midikeys`) també funciona: tria-hi com a
+  destinació el bus de l'**IAC Driver**, que s'activa a Configuració d'Audio
+  MIDI → Finestra → Mostra l'estudi MIDI → IAC Driver → "El dispositiu està en
+  línia".
 
 ### Arpegiador
 

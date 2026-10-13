@@ -18,6 +18,8 @@ describe("scopedEngine", () => {
     expect(engine.launchPattern).toHaveBeenCalledWith("subpatch-1/subpatch-4/sequencer-5", "A3", "bar");
     scoped.getInputStatus("audioInput-7");
     expect(engine.getInputStatus).toHaveBeenCalledWith("subpatch-1/subpatch-4/audioInput-7");
+    scoped.getMidiState("midiInput-8");
+    expect(engine.getMidiState).toHaveBeenCalledWith("subpatch-1/subpatch-4/midiInput-8");
     scoped.isOutputMuted("output-2");
     expect(engine.isOutputMuted).toHaveBeenCalledWith("subpatch-1/subpatch-4/output-2");
     scoped.unmuteOutput("output-2");

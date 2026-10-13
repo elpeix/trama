@@ -184,7 +184,7 @@ export interface ModuleDefinition {
   hint?: string;
   /** Played from the computer keys: the node shows which notes they play. */
   playedFromKeys?: boolean;
-  display?: "scope" | "meter" | "steps" | "mixer" | "wave" | "input" | "sample";
+  display?: "scope" | "meter" | "steps" | "mixer" | "wave" | "input" | "midi" | "sample";
   /** The params that make a pattern, of the four it plays one at a time: its melody and rhythm. */
   patterns?: readonly string[];
 }
@@ -1287,6 +1287,33 @@ export const moduleRegistry: Record<NodeType, ModuleDefinition> = {
     ],
     params: [transpose],
     playedFromKeys: true,
+  },
+  midiInput: {
+    title: "MIDI In",
+    category: "notes",
+    description: "Play notes with a MIDI keyboard or controller",
+    inputs: [],
+    outputs: [
+      { id: "pitch", type: "control" },
+      { id: "gate", type: "trigger" },
+      { id: "notes", type: "notes" },
+      { id: "velocity", type: "control" },
+      { id: "mod", type: "control" },
+      { id: "pedal", type: "control" },
+    ],
+    params: [
+      {
+        id: "channel",
+        label: "Channel",
+        kind: "select",
+        options: ["all", ...Array.from({ length: 16 }, (_, index) => String(index + 1))],
+        default: "all",
+      },
+      { ...transpose, min: -24, max: 24, unit: "st", valueNames: undefined },
+      { id: "bend", label: "Bend", kind: "number", min: 0, max: 12, step: 1, default: 2, unit: "st", scale: "linear" },
+    ],
+    display: "midi",
+    hint: "Hears every MIDI device plugged in. The pitch wheel bends pitch by Bend semitones; mod is the mod wheel and pedal the sustain pedal, which also holds the notes let go while down",
   },
   arpeggiator: {
     title: "Arp",

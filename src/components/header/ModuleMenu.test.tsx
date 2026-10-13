@@ -41,6 +41,7 @@ describe("ModuleMenu", () => {
     ]);
     expect(within(groups[3]).getAllByRole("option").map((item) => item.getAttribute("aria-label"))).toEqual([
       "Keyboard",
+      "MIDI In",
       "Arp",
       "Seq",
       "Clip",
@@ -49,7 +50,7 @@ describe("ModuleMenu", () => {
     expect(within(groups[1]).getAllByRole("option").map((item) => item.getAttribute("aria-label"))).toContain(
       "Mixer",
     );
-    expect(within(menu()!).getAllByRole("option")).toHaveLength(43);
+    expect(within(menu()!).getAllByRole("option")).toHaveLength(44);
   });
 
   it("offers the In and the Out of a subpatch only inside one", async () => {

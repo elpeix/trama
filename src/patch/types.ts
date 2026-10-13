@@ -37,6 +37,7 @@ export type NodeType =
   | "envelopeFollower"
   | "clock"
   | "keyboard"
+  | "midiInput"
   | "arpeggiator"
   | "sequencer"
   | "clip"

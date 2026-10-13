@@ -1,5 +1,6 @@
 import type { PatchNode } from "../../patch/types";
 import type { SampleLibrary } from "../../samples/sampleLibrary";
+import { MidiInput } from "../MidiInput";
 import type { Transport } from "../Transport";
 import type { AudioModule } from "./AudioModule";
 import { CustomFilterModule } from "./processing/CustomFilterModule";
@@ -14,6 +15,7 @@ import { ArpeggiatorModule } from "./notes/ArpeggiatorModule";
 import { ClipModule } from "./notes/ClipModule";
 import { DrumsModule } from "./notes/DrumsModule";
 import { KeyboardModule } from "./notes/KeyboardModule";
+import { MidiModule } from "./notes/MidiModule";
 import { LfoModule } from "./modulation/LfoModule";
 import { MixerModule } from "./processing/MixerModule";
 import { NoiseModule } from "./sources/NoiseModule";
@@ -50,6 +52,7 @@ export function createAudioModule(
   transport: Transport,
   recording: AudioNode,
   samples: SampleLibrary,
+  midi: MidiInput = new MidiInput(),
 ): AudioModule {
   switch (node.type) {
     case "oscillator":
@@ -120,6 +123,8 @@ export function createAudioModule(
       return new EnvelopeFollowerModule(context, node.params);
     case "keyboard":
       return new KeyboardModule(context, node.params);
+    case "midiInput":
+      return new MidiModule(context, node.params, midi);
     case "arpeggiator":
       return new ArpeggiatorModule(context, node.params, transport, undefined, node.patterns);
     case "sequencer":

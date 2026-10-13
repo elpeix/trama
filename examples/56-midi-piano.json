@@ -1,0 +1,112 @@
+{
+  "version": 1,
+  "tempo": 120,
+  "nodes": [
+    {
+      "id": "midiInput-1",
+      "type": "midiInput",
+      "position": {
+        "x": 40,
+        "y": 40
+      },
+      "params": {
+        "channel": "all",
+        "transpose": 0,
+        "bend": 2
+      }
+    },
+    {
+      "id": "piano-2",
+      "type": "piano",
+      "position": {
+        "x": 400,
+        "y": 40
+      },
+      "params": {
+        "brightness": 0.5,
+        "decay": 1,
+        "unison": 1,
+        "hammer": 0.3,
+        "pedal": 0,
+        "body": 0.6
+      }
+    },
+    {
+      "id": "reverb-3",
+      "type": "reverb",
+      "name": "Hall",
+      "position": {
+        "x": 760,
+        "y": 40
+      },
+      "params": {
+        "decay": 3,
+        "predelay": 0.02,
+        "tone": 6000,
+        "mix": 0.25
+      }
+    },
+    {
+      "id": "output-4",
+      "type": "output",
+      "position": {
+        "x": 1120,
+        "y": 40
+      },
+      "params": {
+        "volume": 0.9,
+        "limiter": "on"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "id": "midiInput-1:notes->piano-2:notes",
+      "source": {
+        "nodeId": "midiInput-1",
+        "port": "notes"
+      },
+      "target": {
+        "nodeId": "piano-2",
+        "port": "notes"
+      }
+    },
+    {
+      "id": "midiInput-1:pedal->piano-2:pedal",
+      "source": {
+        "nodeId": "midiInput-1",
+        "port": "pedal"
+      },
+      "target": {
+        "nodeId": "piano-2",
+        "port": "pedal"
+      }
+    },
+    {
+      "id": "piano-2:audio->reverb-3:audio",
+      "source": {
+        "nodeId": "piano-2",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "reverb-3",
+        "port": "audio"
+      }
+    },
+    {
+      "id": "reverb-3:audio->output-4:audio",
+      "source": {
+        "nodeId": "reverb-3",
+        "port": "audio"
+      },
+      "target": {
+        "nodeId": "output-4",
+        "port": "audio"
+      }
+    }
+  ],
+  "meta": {
+    "title": "MIDI piano",
+    "description": "The Piano played from a MIDI keyboard, as hard as each key is struck, with the sustain pedal on its Pedal, in a hall"
+  }
+}

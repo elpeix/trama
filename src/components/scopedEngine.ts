@@ -21,6 +21,7 @@ export function scopedEngine(engine: DisplayEngine, path: readonly NodeId[]): Di
     getModulation: (nodeId, port) => engine.getModulation(inside(nodeId), port),
     getKeyTranspose: (nodeId) => engine.getKeyTranspose(inside(nodeId)),
     getInputStatus: (nodeId) => engine.getInputStatus(inside(nodeId)),
+    getMidiState: (nodeId) => engine.getMidiState(inside(nodeId)),
     isOutputMuted: (nodeId) => engine.isOutputMuted(inside(nodeId)),
     unmuteOutput: (nodeId) => engine.unmuteOutput(inside(nodeId)),
     getVoiceUsage: (nodeId) => engine.getVoiceUsage(inside(nodeId)),
